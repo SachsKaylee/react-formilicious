@@ -57,7 +57,7 @@ import checkForAvailableUsername from './my-own-validators/checkForAvailableUser
       key: "password",
       name: "🔑 Password",
       mode: "password",
-      placeholder: "🔑 Your super secret pasword here!",
+      placeholder: "🔑 Your super secret password here!",
       validator: range({ min: 5 })
     },
     {
@@ -68,6 +68,8 @@ import checkForAvailableUsername from './my-own-validators/checkForAvailableUser
     }
   ]} />
 ```
+
+![Demo Image](https://patrick-sachs.de/content/react-formilicious/demo.png)
 
 See the [react-formilicious wiki](https://github.com/PatrickSachs/react-formilicious/wiki) for more information, guides & tutorials!
 

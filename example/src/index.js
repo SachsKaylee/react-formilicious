@@ -68,7 +68,7 @@ class App extends React.Component {
                 mode: "password",
                 key: "password",
                 name: "🔑 Password",
-                placeholder: "🔑 Your super secret pasword here!",
+                placeholder: "🔑 Your super secret password here!",
                 validator: range({ min: 5 })
               },
               {
@@ -116,7 +116,7 @@ class App extends React.Component {
       mode: "password",
       key: "password",
       name: "🔑 Password",
-      placeholder: "🔑 Your super secret pasword here!",
+      placeholder: "🔑 Your super secret password here!",
       validator: range({ min: 5 })
     },
     {
