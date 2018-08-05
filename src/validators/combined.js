@@ -4,35 +4,35 @@ import makePromise from "../helpers/makePromise";
 const combined = (...all) => {
   all = all.length === 1 && Array.isArray(all[0]) ? all[0] : all;
   return (...args) => {
-    return new Promise((res, rej) => {
+    return new Promise((resolve, reject) => {
       let resolved = 0;
       let bestCandidate = { validated: "ok", message: null };
       for (let i = 0; i < all.length; i++) {
         makePromise(() => all[i].apply(null, args))
-          .then(res => {
+          .then(result => {
             if (resolved !== true) {
-              res = sanitizeValidationResult(res);
+              result = sanitizeValidationResult(result);
               resolved++;
-              if (res.validated === "error") {
+              if (result.validated === "error") {
                 resolved = true;
-                return rej(res);
+                return reject(result);
               }
               if (!bestCandidate) {
-                bestCandidate = res;
+                bestCandidate = result;
               }
-              if (res.validated === "hint" && bestCandidate.validated === "ok") {
-                bestCandidate = res;
+              if (result.validated === "hint" && bestCandidate.validated === "ok") {
+                bestCandidate = result;
               }
               if (resolved >= all.length) {
                 resolved = true;
-                return res(bestCandidate);
+                return resolve(bestCandidate);
               }
             }
           })
-          .catch(res => {
+          .catch(error => {
             if (resolved !== true) {
               resolved = true;
-              return rej(sanitizeValidationResult(res, true));
+              return reject(sanitizeValidationResult(error, true));
             }
           });
       }
