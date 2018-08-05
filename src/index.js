@@ -2,6 +2,7 @@ import * as React from "react";
 import find from "./helpers/find";
 import makePromise, { thenCatch } from "./helpers/makePromise";
 import { sanitizeValidationResult, sanitizeOnSubmitResult } from "./validators";
+import ValidationResult from "./validators/ValidationResult";
 
 export default class Form extends React.Component {
   constructor() {
@@ -69,22 +70,24 @@ export default class Form extends React.Component {
     }
   }
 
-  onChangeField(key, value) { // todo: allow fields to return validation errors/hints/etc...
+  onChangeField(key, value) {
     const element = this.getElement(key);
+    const version = this.state.fields[key] && this.state.fields[key].version !== undefined ? this.state.fields[key].version + 1 : 0;
     if (!element.validator) {
       this.setState(s => ({
-        fields: { ...s.fields, [key]: { validated: "ok", message: null, value } }
+        fields: { ...s.fields, [key]: { validated: "ok", message: null, value, version } }
       }), this.onChange);
     } else {
       this.setState(s => ({
-        fields: { ...s.fields, [key]: { validated: "pending", message: null, value } }
+        fields: { ...s.fields, [key]: { validated: "pending", message: null, value, version } }
       }), () => {
         this.runFieldValidator(element, value)
-          .then(res => this.mounted && this.setState(s => (s.fields[key].validated === "pending" ? {
+          .then(res => this.mounted && this.setState(s => (s.fields[key].validated === "pending" && s.fields[key].version === version ? {
             fields: {
               ...s.fields, [key]: {
                 validated: res.validated,
                 message: res.message,
+                version,
                 value
               }
             }
@@ -134,9 +137,11 @@ export default class Form extends React.Component {
   }
 
   renderForm() {
+    const { formValidationResult } = this.state;
     return (<form>
       {this.renderElements()}
       {this.renderButtons()}
+      <ValidationResult {...formValidationResult} />
     </form>);
   }
 

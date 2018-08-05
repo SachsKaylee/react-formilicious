@@ -21,7 +21,7 @@ const sanitizeOnSubmitResult = result => {
   const validation = sanitizeValidationResult(result);
   return {
     ...validation,
-    key: ("key" in result && result.key) || null
+    key: (result && "key" in result && result.key) || null
   };
 };
 
