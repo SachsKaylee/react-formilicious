@@ -69,7 +69,7 @@ import checkForAvailableUsername from './my-own-validators/checkForAvailableUser
   ]} />
 ```
 
-![Demo Image](https://patrick-sachs.de/content/react-formilicious/demo.png)
+![Demo Image](https://patrick-sachs.de/content/react-formilicious/demo.png?)
 
 See the [react-formilicious wiki](https://github.com/PatrickSachs/react-formilicious/wiki) for more information, guides & tutorials!
 
