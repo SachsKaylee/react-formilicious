@@ -94,7 +94,9 @@ export default class Form extends React.Component {
   }
 
   runFieldValidator(element, value) {
-    return thenCatch(makePromise(() => element.validator(value, this.getSystemProps())), sanitizeValidationResult);
+    return makePromise(() => element.validator(value, this.getSystemProps()))
+      .then(sanitizeValidationResult)
+      .catch(res => sanitizeValidationResult(res, true));
   }
 
   onResetButtonClick(e) {

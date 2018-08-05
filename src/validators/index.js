@@ -1,7 +1,15 @@
 import * as React from "react";
 
-const sanitizeValidationResult = result => {
-  if (!result) return sanitizeResultNull(result);
+const sanitizeValidationResult = (result, forceError = false) => {
+  const validation = sanitizeValidationResult0(result);
+  if (forceError) {
+    validation.validated = "error";
+  }
+  return validation;
+};
+
+const sanitizeValidationResult0 = (result) => {
+  if (result === null || result === undefined || result === "") return sanitizeResultNull(result);
   if (typeof result === "string" || React.isValidElement(result) || Array.isArray(result)) return sanitizeResultReactElement(result);
   if (result instanceof Error) return sanitizeResultError(result);
   if (typeof result === "object") return sanitizeResultObject(result);

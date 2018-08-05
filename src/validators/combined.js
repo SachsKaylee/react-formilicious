@@ -1,17 +1,42 @@
 import { sanitizeValidationResult } from ".";
+import makePromise from "../helpers/makePromise";
 
 const combined = (...all) => {
   all = all.length === 1 && Array.isArray(all[0]) ? all[0] : all;
   return (...args) => {
-    let bestCandidate = { validated: "ok", message: null };
-    for (let i = 0; i < all.length; i++) {
-      const result = sanitizeValidationResult(all[i].apply(null, args));
-      if (result.validated === "error") return result;
-      if (result.validated === "hint" && bestCandidate.validated === "ok") bestCandidate = bestCandidate;
-      if (result.validated === "pending" && bestCandidate.validated === "ok") bestCandidate = bestCandidate;
-      if (!bestCandidate) bestCandidate = bestCandidate;
-    }
-    return bestCandidate;
+    return new Promise((res, rej) => {
+      let resolved = 0;
+      let bestCandidate = { validated: "ok", message: null };
+      for (let i = 0; i < all.length; i++) {
+        makePromise(() => all[i].apply(null, args))
+          .then(res => {
+            if (resolved !== true) {
+              res = sanitizeValidationResult(res);
+              resolved++;
+              if (res.validated === "error") {
+                resolved = true;
+                return rej(res);
+              }
+              if (!bestCandidate) {
+                bestCandidate = res;
+              }
+              if (res.validated === "hint" && bestCandidate.validated === "ok") {
+                bestCandidate = res;
+              }
+              if (resolved >= all.length) {
+                resolved = true;
+                return res(bestCandidate);
+              }
+            }
+          })
+          .catch(res => {
+            if (resolved !== true) {
+              resolved = true;
+              return rej(sanitizeValidationResult(res, true));
+            }
+          });
+      }
+    });
   };
 };
 
