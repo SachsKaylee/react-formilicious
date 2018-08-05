@@ -141,7 +141,7 @@ export default class Form extends React.Component {
 
   renderForm() {
     const { formValidationResult } = this.state;
-    return (<form>
+    return (<form data-react-formilicious>
       {this.renderElements()}
       {this.renderButtons()}
       <ValidationResult {...formValidationResult} />

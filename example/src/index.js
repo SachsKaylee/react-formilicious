@@ -20,6 +20,8 @@ class App extends React.Component {
   }
 
   onChange(data) {
+    // Saving the current state of the form is not required for the functionality of the form. We 
+    // only save it to display it as JSON in the card below.
     this.setState({ currentFormValues: data });
   }
 
@@ -36,9 +38,14 @@ class App extends React.Component {
 
   render() {
     return (<div className="container">
+      <div style={{ textAlign: "center", marginTop: 20 }}>
+        <a href="https://github.com/PatrickSachs/react-formilicious" target="_blank">View on GitHub!<br />https://github.com/PatrickSachs/react-formilicious</a>
+      </div>
+      <hr />
       <div className="card">
         <div className="card-content">
           <p className="title">react-formilicious</p>
+          <p className="subtitle">A simple demo login form</p>
           <Form
             data={{
               name: "Patrick Sachs"
@@ -73,13 +80,52 @@ class App extends React.Component {
             ]} />
         </div>
       </div>
-      <hr/>
+      <hr />
       <div className="card">
         <div className="card-content">
           <p className="title">Current form values</p>
+          <p className="subtitle">Updated on <code className="has-text-info">onChange</code> event</p>
           <pre>
             {JSON.stringify(this.state.currentFormValues, null, 2)}
           </pre>
+        </div>
+      </div>
+      <hr />
+      <div className="card">
+        <div className="card-content">
+          <p className="title">How to?</p>
+          <p className="subtitle">All that's required for the form above is the following code</p>
+          <pre>{`<Form
+  data={{
+    name: "Patrick Sachs"
+  }}
+  onSubmit={data => alert(JSON.stringify(data))}
+  elements={[
+    {
+      type: TextField,
+      key: "name",
+      name: "🙃 Username",
+      placeholder: "🙃 Enter your name here!",
+      validator: combined(
+        range({ min: 4, max: 16 }),
+        checkForAvailableUsername()
+      )
+    },
+    {
+      type: TextField,
+      mode: "password",
+      key: "password",
+      name: "🔑 Password",
+      placeholder: "🔑 Your super secret pasword here!",
+      validator: range({ min: 5 })
+    },
+    {
+      type: Checkbox,
+      key: "tos",
+      name: <span>📄 Accept the <a href="#/tos">TOS</a>?</span>,
+      validator: required()
+    }
+  ]} />`}</pre>
         </div>
       </div>
     </div>);
