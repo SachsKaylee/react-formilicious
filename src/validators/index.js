@@ -31,7 +31,7 @@ const sanitizeResultBoolean = result => result ? PASS_VALIDATION() : FAIL_VALIDA
 const sanitizeResultNull = () => PASS_VALIDATION();
 
 const sanitizeResultInvalid = result => {
-  console.error("[react-formilicious] Invalid form validation result", result);
+  console.warn("[react-formilicious] Invalid form validation result", result);
   return FAIL_VALIDATION();
 };
 
@@ -43,11 +43,18 @@ const sanitizeResultReactElement = react => {
 
 // Objects can have the shorthand "error" property.
 const sanitizeResultObjectGetValidated = ({ validated, error, message, name }) => {
-  if (validated) return validated;
-  if (error !== undefined && error) return "error";
-  if (error !== undefined && !error) return "ok";
-  if (message || name) return "error";
-  return "ok";
+  switch (validated) {
+    case "ok": return "ok";
+    case "hint": return "hint";
+    case "error": return "error";
+    case undefined: {
+      if (error !== undefined && error) return "error";
+      if (error !== undefined && !error) return "ok";
+      if (message || name) return "error";
+      return "ok";
+    }
+    default: return "error";
+  }
 };
 
 const VALIDATION = (validated = "error", message = null) => ({ validated, message });

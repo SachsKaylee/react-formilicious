@@ -62,6 +62,6 @@ const config = {
   ignore: ['scripts/*.js']
 };
 
-console.log("Running Babel ...", { BABEL_ENV, NODE_ENV, config });
+console.log("Running Babel ...", { BABEL_ENV, NODE_ENV, moduleSystem });
 
 module.exports = config;

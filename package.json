@@ -8,14 +8,32 @@
   "files": [
     "*"
   ],
+  "jest": {
+    "verbose": true,
+    "modulePathIgnorePatterns": [
+      "./dist/"
+    ],
+    "transform": {
+      "^.+\\.js$": "./test/jest.transform.js"
+    },
+    "moduleFileExtensions": [
+      "js",
+      "jsx"
+    ],
+    "testURL": "http://localhost",
+    "setupFiles": [
+      "./test/jest.setup.js"
+    ]
+  },
   "sideEffects": false,
   "scripts": {
+    "test": "cross-env NODE_ENV=test BABEL_ENV=modules:commonjs jest",
+    "test:release": "npm run test && npm run build && npm pack ./dist",
     "build": "npm run build:commonjs && npm run build:es && npm run build:copy-files",
     "build:commonjs": "cross-env NODE_ENV=production BABEL_ENV=modules:commonjs babel ./src --out-dir ./dist/ --ignore *.test.js",
     "build:es": "cross-env NODE_ENV=production BABEL_ENV=modules:es babel ./src --out-dir ./dist/es --ignore *.test.js",
     "build:copy-files": "node ./scripts/copy-files.js",
-    "release:test": "npm run test && npm run build && npm pack ./dist",
-    "release:npm": "npm run test && npm run build && npm publish ./dist"
+    "release": "npm run test && npm run build && npm publish ./dist"
   },
   "peerDependencies": {
     "react": ">=16.2.0",
@@ -31,6 +49,7 @@
     "@babel/preset-react": "^7.0.0-beta.55",
     "@babel/runtime": "^7.0.0-beta.55",
     "all-contributors-cli": "^5.3.0",
+    "babel-core": "^7.0.0-bridge.0",
     "babel-plugin-module-resolver": "^3.1.1",
     "babel-plugin-transform-react-constant-elements": "^6.23.0",
     "cross-env": "^5.2.0",
@@ -40,6 +59,7 @@
     "rimraf": "^2.6.2"
   },
   "dependencies": {
-    "classnames": "^2.2.6"
+    "classnames": "^2.2.6",
+    "jest": "^23.4.2"
   }
 }
