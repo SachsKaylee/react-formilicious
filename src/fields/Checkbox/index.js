@@ -8,17 +8,11 @@ export default class Checkbox extends React.Component {
 
   render() {
     const {
-      name, ignoreData,
-      field: { initialValue, value, validated, message },
+      name,
+      field: { validated, message },
       system: { waiting },
-      onChange
+      onChange, value
     } = this.props;
-
-    const fieldValue = value !== undefined
-      ? value
-      : ignoreData
-        ? Checkbox.getDefaultValue()
-        : initialValue === undefined ? Checkbox.getDefaultValue() : initialValue;
 
     return (<div className="field">
       <div className="contol">
@@ -27,7 +21,7 @@ export default class Checkbox extends React.Component {
             style={{ marginRight: 2 }}
             type="checkbox"
             disabled={waiting}
-            checked={fieldValue}
+            checked={value}
             onChange={e => onChange(e.target.checked)} />
           <span>{name}</span>
         </label>

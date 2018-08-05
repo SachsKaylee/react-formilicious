@@ -53,16 +53,25 @@ export default class Form extends React.Component {
     };
   }
 
+  getFieldValue(key) {
+    const field = this.state.fields[key];
+    if (field && field.value !== undefined) return field.value;
+    const element = this.getElement(key);
+    if (!element.ignoreData) {
+      const initialValue = this.state.initialData[key];
+      if (initialValue !== undefined) return initialValue;
+    }
+    return element.type.getDefaultValue();
+  }
+
   getElement(key) {
     return this.props.elements.find(element => element.key === key);
   }
 
   getFlatDataStructure() {
     const { elements } = this.props;
-    const { initialData, fields } = this.state;
     return elements.reduce((acc, element) => {
-      const field = fields[element.key];
-      return { ...acc, [element.key]: field ? field.value : initialData[element.key] };
+      return { ...acc, [element.key]: this.getFieldValue(element.key) };
     }, {});
   }
 
@@ -191,6 +200,7 @@ export default class Form extends React.Component {
       key={key}
       system={this.getSystemProps()}
       field={this.getFieldProps(key)}
+      value={this.getFieldValue(key)}
       onChange={newValue => this.onChangeField(key, newValue)} />);
   }
 }

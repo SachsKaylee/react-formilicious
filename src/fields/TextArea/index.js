@@ -9,31 +9,25 @@ export default class TextArea extends React.Component {
   render() {
     const {
       // Your element config expect type and key
-      name, ignoreData, placeholder, lines,
+      name, placeholder, lines,
       // System created properties just for this field
-      field: { initialValue, value, validated, message },
+      field: { validated, message },
       // System properties which are the same for all fields
       system: { waiting },
       // Change handler
-      onChange
+      onChange, value
     } = this.props;
-
-    const fieldValue = value !== undefined
-      ? value
-      : ignoreData
-        ? TextArea.getDefaultValue()
-        : initialValue === undefined ? TextArea.getDefaultValue() : initialValue;
 
     return (
       <div className="field">
         <label className="label">{name}</label>
         <div className="contol">
-          <textarea 
+          <textarea
             className="textarea"
             onChange={e => onChange(e.target.value)}
             disabled={waiting}
             rows={lines}
-            value={fieldValue}
+            value={value}
             placeholder={placeholder} />
         </div>
         <ValidationResult validated={validated} message={message} />
