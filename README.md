@@ -9,15 +9,17 @@ Easy to use, modular and simply delicious forms for React. 📝
 
 ## Motivation
 
-Form management in React has always been a pain point for me. Not due to the lack of expressiveness, but due to the need to manually having to set up every field with its own event handlers, creating a property for it in the state, and possibly adding quite the amount of case-by-case code if you need adjusted validation per field.
+Form management in React has always been a pain point for me. Not due to the lack of expressiveness, but due to the need of manually having to set up every field with its own event handlers, creating a property for it in the state, and possibly adding quite the amount of case-by-case code if you need adjusted validation per field.
 
 This is fine for one or two fields in an application. If you need dozens of fields, this can quickly become an unmaintainable mess.
+
+react-formilicious intends to fix this issue by providing a simple, yet powerful and extendible solution for both simple, aswell as complex and nested forms.
 
 ## Feature spotlight
 
 * Simple - Supply a **plain JavaScript object** as the form, Formilicious takes care of the rest. No need to handle events, lifecycle, etc. yourself.
 * Extendible - Don't like a default field? Need a customized validator? The **entire library is modular**, you can **easily extend** Formilicious to your needs.
-* Asynchronous - A validator needs to contact your server in order to validate a field? No problem, Formilicious is asynchronous by default!
+* Asynchronous - A validator needs to contact your server in order to validate a field? No problem, Formilicious is **asynchronous by default**!
 
 ## Getting started
 
@@ -68,3 +70,7 @@ import checkForAvailableUsername from './my-own-validators/checkForAvailableUser
 ```
 
 See the [react-formilicious wiki](https://github.com/PatrickSachs/react-formilicious/wiki) for more information, guides & tutorials!
+
+## License
+
+MIT - [https://github.com/PatrickSachs/react-formilicious/blob/master/LICENSE](https://github.com/PatrickSachs/react-formilicious/blob/master/LICENSE)
