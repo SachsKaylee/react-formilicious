@@ -4,6 +4,8 @@ import "./index.css";
 import Form from '../../src';
 import TextField from '../../src/fields/TextField';
 import range from '../../src/validators/range';
+import required from '../../src/validators/required';
+import Checkbox from '../../src/fields/Checkbox';
 
 class App extends Component {
   render() {
@@ -16,6 +18,7 @@ class App extends Component {
           {
             type: TextField,
             key: "name",
+            name: "🙃 Username",
             placeholder: "🙃 Enter your name here!",
             validator: range({min: 5})
           },
@@ -23,8 +26,15 @@ class App extends Component {
             type: TextField,
             mode: "password",
             key: "password",
+            name: "🔑 Password",
             placeholder: "🔑 Your super secret pasword here!",
             validator: range({min: 5})
+          },
+          {
+            type: Checkbox,
+            key: "tos",
+            name: "📄 Accept the TOS?",
+            validator: required()
           }
         ]} />
     </div>);
