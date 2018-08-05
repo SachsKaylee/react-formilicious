@@ -59,7 +59,7 @@ const config = {
       ignore: ['test/*']
     }
   },*/
-  ignore: ['scripts/*.js']
+  ignore: NODE_ENV === "test" ? ['scripts/*.js'] : ['scripts/*.js', "**/*.test.js"]
 };
 
 console.log("Running Babel ...", { BABEL_ENV, NODE_ENV, moduleSystem });
