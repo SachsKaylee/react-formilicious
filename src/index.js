@@ -27,11 +27,14 @@ export default class Form extends React.Component {
   }
 
   static getDerivedStateFromProps(newProps, oldState) {
-    // todo: let the field clases provide default values in case a data entry is undefined
-    return {
-      ...oldState,
-      initialData: newProps.data
-    };
+    const { elements, data } = newProps;
+    const initialData = elements.reduce((acc, element) => {
+      const value = data[element.key] === undefined
+        ? element.type.getDefaultValue()
+        : data[element.key];
+      return { ...acc, [element.key]: value };
+    }, {});
+    return { ...oldState, initialData };
   }
 
   getSystemProps() {

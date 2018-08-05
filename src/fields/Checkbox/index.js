@@ -2,6 +2,10 @@ import * as React from "react";
 import ValidationResult from "../../validators/ValidationResult";
 
 export default class Checkbox extends React.Component {
+  static getDefaultValue() {
+    return false;
+  }
+
   render() {
     const {
       name, ignoreData,
@@ -13,8 +17,8 @@ export default class Checkbox extends React.Component {
     const fieldValue = value !== undefined
       ? value
       : ignoreData
-        ? ""
-        : (initialValue || "");
+        ? Checkbox.getDefaultValue()
+        : initialValue === undefined ? Checkbox.getDefaultValue() : initialValue;
 
     return (<div className="field">
       <div className="contol">

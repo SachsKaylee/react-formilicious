@@ -2,6 +2,10 @@ import * as React from "react";
 import ValidationResult from "../../validators/ValidationResult";
 
 export default class TextField extends React.Component {
+  static getDefaultValue() {
+    return "";
+  }
+
   render() {
     const {
       // Your element config expect type and key
@@ -17,8 +21,8 @@ export default class TextField extends React.Component {
     const fieldValue = value !== undefined
       ? value
       : ignoreData
-        ? ""
-        : (initialValue || "");
+        ? TextField.getDefaultValue()
+        : initialValue === undefined ? TextField.getDefaultValue() : initialValue;
 
     return (
       <div className="field">
