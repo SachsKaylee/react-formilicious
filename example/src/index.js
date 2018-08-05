@@ -7,7 +7,10 @@ import Checkbox from '../../src/fields/Checkbox';
 import range from '../../src/validators/range';
 import required from '../../src/validators/required';
 import combined from '../../src/validators/combined';
-import checkForAvailableUsername from './validators/checkForAvailableUsername';
+import checkForAvailableUsername from './my-own-validators/checkForAvailableUsername';
+import TextArea from '../../src/fields/TextArea';
+import ToggleField from './my-own-fields/ToggleField';
+import pwned from './my-own-validators/pwned';
 
 class App extends React.Component {
   constructor() {
@@ -69,7 +72,19 @@ class App extends React.Component {
                 key: "password",
                 name: "🔑 Password",
                 placeholder: "🔑 Your super secret password here!",
-                validator: range({ min: 5 })
+                validator: pwned()
+              },
+              {
+                type: TextArea,
+                key: "bio",
+                name: "🤖 Tell us something about you!",
+                placeholder: "🤖 What kind of developer robot are you?"
+              },
+              {
+                type: ToggleField,
+                key: "newsletter",
+                name: <span>📨 Subscribe to our <em>awesome</em> newsletter?</span>,
+                validator: required("You MUST subscribe to our totally-not-spam newsletter!")
               },
               {
                 type: Checkbox,
@@ -118,6 +133,12 @@ class App extends React.Component {
       name: "🔑 Password",
       placeholder: "🔑 Your super secret password here!",
       validator: range({ min: 5 })
+    },
+    {
+      type: TextArea,
+      key: "bio",
+      name: "🤖 Tell us something about you!",
+      placeholder: "🤖 What kind of developer robot are you?"
     },
     {
       type: Checkbox,
