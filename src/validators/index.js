@@ -25,57 +25,34 @@ const sanitizeOnSubmitResult = result => {
   };
 };
 
+const sanitizeResultObject = object => VALIDATION(sanitizeResultObjectGetValidated(object), object.message || object.name || null);
+const sanitizeResultError = result => FAIL_VALIDATION(result.message || result.stack || result.name);
+const sanitizeResultBoolean = result => result ? PASS_VALIDATION() : FAIL_VALIDATION();;
+const sanitizeResultNull = () => PASS_VALIDATION();
+
 const sanitizeResultInvalid = result => {
   console.error("[react-formilicious] Invalid form validation result", result);
-  return {
-    validated: "error",
-    message: null
-  };
-};
-
-const sanitizeResultError = result => {
-  return {
-    validated: "error",
-    message: result.message || result.stack || result.name || null
-  };
-};
-
-const sanitizeResultBoolean = result => {
-  return {
-    validated: result ? "ok" : "error",
-    message: null
-  };
-};
-
-const sanitizeResultNull = () => {
-  return {
-    validated: "ok",
-    message: null
-  };
+  return FAIL_VALIDATION();
 };
 
 const sanitizeResultReactElement = react => {
-  return {
-    validated: react ? "error" : "ok",
-    message: react || null
-  };
-};
-
-const sanitizeResultObject = object => {
-  return {
-    validated: sanitizeResultObjectGetValidated(object),
-    message: object.message || null
-  };
+  if (!react) return PASS_VALIDATION();
+  if (Array.isArray(react) && react.length === 0) return PASS_VALIDATION();
+  return FAIL_VALIDATION(react);
 };
 
 // Objects can have the shorthand "error" property.
-const sanitizeResultObjectGetValidated = ({ validated, error, message }) => {
+const sanitizeResultObjectGetValidated = ({ validated, error, message, name }) => {
   if (validated) return validated;
   if (error !== undefined && error) return "error";
   if (error !== undefined && !error) return "ok";
-  if (message) return "error";
+  if (message || name) return "error";
   return "ok";
 };
+
+const VALIDATION = (validated = "error", message = null) => ({ validated, message });
+const PASS_VALIDATION = (message = null) => VALIDATION("ok", message);
+const FAIL_VALIDATION = (message = null) => VALIDATION("error", message);
 
 export {
   sanitizeValidationResult,
