@@ -91,7 +91,7 @@ export default class Form extends React.Component {
                 value
               }
             }
-          } : null)), this.onChange);
+          } : null), this.onChange));
       });
     }
   }
