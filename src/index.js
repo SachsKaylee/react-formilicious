@@ -153,14 +153,18 @@ export default class Form extends React.Component {
 
   onSubmitButtonClick(e) {
     e.preventDefault();
-    // todo: add a prop to validate the initial values.
-    const { elements, validateBeforeSubmit = true } = this.props;
-    const promise = validateBeforeSubmit
-      ? this.validateElements(elements).then(() => this.submitForm())
-      : this.submitForm();
-    promise
-      .then(data => console.log("[react-formilicious] Form submit!", { data }))
-      .catch(error => console.error("[react-formilicious] Form submit error!", { error }));
+    this.setState({ waiting: true }, () => {
+      // todo: add a prop to validate the initial values.
+      const { elements, validateBeforeSubmit = true } = this.props;
+      const promise = validateBeforeSubmit
+        ? this.validateElements(elements).then(() => this.submitForm())
+        : this.submitForm();
+      thenCatch(promise, (res, success) => {
+        this.setState({ waiting: false }, () => success
+          ? console.log("[react-formilicious] Form submit!", { res })
+          : console.error("[react-formilicious] Form submit error!", { res }));
+      });
+    });
   }
 
   findFormError() {
@@ -174,7 +178,7 @@ export default class Form extends React.Component {
       if (invalidField) {
         reject(invalidField);
       } else {
-        this.setState({ formValidationResult: null, waiting: true }, () => {
+        this.setState({ formValidationResult: null }, () => {
           const { onSubmit } = this.props;
           const data = this.getFlatDataStructure();
           return thenCatch(makePromise(() => onSubmit(data)), onSubmitResult => {
@@ -182,9 +186,9 @@ export default class Form extends React.Component {
               this.setState(s => {
                 const { key, ...result } = sanitizeOnSubmitResult(onSubmitResult); // todo: may return multiple results!
                 if (!key || !this.getElement(key)) {
-                  return { waiting: false, formValidationResult: result };
+                  return { formValidationResult: result };
                 } else {
-                  return { waiting: false, fields: { ...s.fields, [key]: result } };
+                  return { fields: { ...s.fields, [key]: result } };
                 }
               }, () => resolve(data));
             } else {
