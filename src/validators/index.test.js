@@ -25,11 +25,22 @@ const run = () => {
     expect(result).toHaveProperty("validated", "ok");
   });
 
+  test("Validate timeout string", () => {
+    const input = "timeout";
+    const result = sanitizeValidationResult(input);
+    expect(result).toEqual({
+      validated: "error",
+      message: "timeout"
+    });
+  });
+
   test("Validate non-empty string", () => {
     const input = "Hello World";
     const result = sanitizeValidationResult(input);
-    expect(result).toHaveProperty("validated", "error");
-    expect(result).toHaveProperty("message", input);
+    expect(result).toEqual({
+      validated: "error",
+      message: "Hello World"
+    });
   });
 
   test("Validate react node", () => {

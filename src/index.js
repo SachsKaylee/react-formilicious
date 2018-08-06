@@ -3,11 +3,12 @@ import find from "./helpers/find";
 import makePromise, { thenCatch } from "./helpers/makePromise";
 import { sanitizeValidationResult, sanitizeOnSubmitResult } from "./validators";
 import ValidationResult from "./validators/ValidationResult";
+import { mustResolveWithin } from "./helpers/timeout";
 
 export default class Form extends React.Component {
   constructor() {
     super();
-    this.mounted = true;
+    this.mounted = false;
     this.state = {
       waiting: false,
       formValidationResult: null,
@@ -22,11 +23,16 @@ export default class Form extends React.Component {
     this.onResetButtonClick = this.onResetButtonClick.bind(this);
   }
 
+  componentDidMount() {
+    this.mounted = true;
+  }
+
   componentWillUnmount() {
     this.mounted = false;
   }
 
   static getDerivedStateFromProps(newProps, oldState) {
+    // todo: some elements may change completely, requiring us to remove their validation result
     const { elements, data } = newProps;
     const initialData = elements.reduce((acc, element) => {
       const value = data[element.key] === undefined
@@ -84,34 +90,60 @@ export default class Form extends React.Component {
 
   onChangeField(key, value) {
     const element = this.getElement(key);
-    const version = this.state.fields[key] && this.state.fields[key].version !== undefined ? this.state.fields[key].version + 1 : 0;
-    if (!element.validator) {
-      this.setState(s => ({
-        fields: { ...s.fields, [key]: { validated: "ok", message: null, value, version } }
-      }), this.onChange);
-    } else {
+    this.setState(s => ({
+      fields: {
+        ...s.fields, [key]: {
+          validated: "pending",
+          message: null,
+          version: (s.fields[key] && s.fields[key].version) || 0,
+          value
+        }
+      }
+    }), () => this.validateElement(element)
+      .then(this.onChange)
+      .catch(error => console.error("[react-formilicious] Form on change error!", error)));
+  }
+
+  validateElement(element) {
+    const key = element.key;
+    return new Promise((resolve, reject) => {
+      const value = this.getFieldValue(key);
+      const version = ((this.state.fields[key] && this.state.fields[key].version) || 0) + 1;
       this.setState(s => ({
         fields: { ...s.fields, [key]: { validated: "pending", message: null, value, version } }
       }), () => {
-        this.runFieldValidator(element, value)
-          .then(res => this.mounted && this.setState(s => (s.fields[key].validated === "pending" && s.fields[key].version === version ? {
-            fields: {
-              ...s.fields, [key]: {
-                validated: res.validated,
-                message: res.message,
-                version,
-                value
-              }
-            }
-          } : null), this.onChange));
+        this.runElementValidator(element, value).then(res => {
+          if (this.mounted) {
+            // todo: reject promise if version differs!
+            this.setState(s => (s.fields[key].validated === "pending" && s.fields[key].version === version
+              ? { fields: { ...s.fields, [key]: { validated: res.validated, message: res.message, version, value } } }
+              : null), () => resolve(res));
+          } else {
+            reject("unmounted");
+          }
+        });
       });
-    }
+    });
   }
 
-  runFieldValidator(element, value) {
-    return makePromise(() => element.validator(value, this.getSystemProps()))
-      .then(sanitizeValidationResult)
-      .catch(res => sanitizeValidationResult(res, true));
+  validateElements(elements) {
+    const all = elements.map(element => this.validateElement(element));
+    return Promise.all(all);
+  }
+
+  /**
+   * Runs the validator of the given element with the optional given value. If no value is given, the current value of the field is used instead.
+   * Does not update the state, etc...
+   * 
+   * This promise always resolves and never fails!
+   */
+  runElementValidator(element, value = this.getFieldValue(element.key)) {
+    const { validatorTimeout = 3000 } = this.props;
+    const promise0 = makePromise(() => element.validator
+      ? element.validator(value, this.getSystemProps())
+      : { validated: "ok", message: null });
+    const promise1 = validatorTimeout >= 0 ? mustResolveWithin(promise0, validatorTimeout) : promise0;
+    return promise1.then(sanitizeValidationResult).catch(res => sanitizeValidationResult(res, true));
   }
 
   onResetButtonClick(e) {
@@ -121,27 +153,47 @@ export default class Form extends React.Component {
 
   onSubmitButtonClick(e) {
     e.preventDefault();
-    // todo: validate all fields(or just the non validated) one shere. Primary difficulty is here is "pending"!
     // todo: add a prop to validate the initial values.
+    const { elements, validateBeforeSubmit = true } = this.props;
+    const promise = validateBeforeSubmit
+      ? this.validateElements(elements).then(() => this.submitForm())
+      : this.submitForm();
+    promise
+      .then(data => console.log("[react-formilicious] Form submit!", { data }))
+      .catch(error => console.error("[react-formilicious] Form submit error!", { error }));
+  }
+
+  findFormError() {
     const { fields } = this.state;
-    const invalidField = find(fields, field => field.validated === "error" || field.validated === "pending");
-    if (invalidField) {
-      console.warn("[react-formilicious] Form submit error!", { fields, invalidField });
-    } else {
-      const { onSubmit } = this.props;
-      this.setState({ formValidationResult: null, waiting: true }, () => {
-        const data = this.getFlatDataStructure();
-        console.log("[react-formilicious] Form submit!", { data });
-        thenCatch(makePromise(() => onSubmit(data)), onSubmitResult => this.mounted && this.setState(s => {
-          const { key, ...result } = sanitizeOnSubmitResult(onSubmitResult);
-          if (!key || !this.getElement(key)) {
-            return { waiting: false, formValidationResult: result };
-          } else {
-            return { waiting: false, fields: { ...s.fields, [key]: result } };
-          }
-        }));
-      });
-    }
+    return find(fields, field => field.validated === "error" || field.validated === "pending");
+  }
+
+  submitForm() {
+    return new Promise((resolve, reject) => {
+      const invalidField = this.findFormError();
+      if (invalidField) {
+        reject(invalidField);
+      } else {
+        this.setState({ formValidationResult: null, waiting: true }, () => {
+          const { onSubmit } = this.props;
+          const data = this.getFlatDataStructure();
+          return thenCatch(makePromise(() => onSubmit(data)), onSubmitResult => {
+            if (this.mounted) {
+              this.setState(s => {
+                const { key, ...result } = sanitizeOnSubmitResult(onSubmitResult); // todo: may return multiple results!
+                if (!key || !this.getElement(key)) {
+                  return { waiting: false, formValidationResult: result };
+                } else {
+                  return { waiting: false, fields: { ...s.fields, [key]: result } };
+                }
+              }, () => resolve(data));
+            } else {
+              reject("unmounted");
+            }
+          });
+        });
+      }
+    });
   }
 
   render() {

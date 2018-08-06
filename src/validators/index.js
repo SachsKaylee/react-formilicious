@@ -10,6 +10,7 @@ const sanitizeValidationResult = (result, forceError = false) => {
 
 const sanitizeValidationResult0 = (result) => {
   if (result === null || result === undefined || result === "") return sanitizeResultNull(result);
+  if (result === "timeout") return sanitizeTimeout(result);
   if (typeof result === "string" || React.isValidElement(result) || Array.isArray(result)) return sanitizeResultReactElement(result);
   if (result instanceof Error) return sanitizeResultError(result);
   if (typeof result === "object") return sanitizeResultObject(result);
@@ -29,6 +30,7 @@ const sanitizeResultObject = object => VALIDATION(sanitizeResultObjectGetValidat
 const sanitizeResultError = result => FAIL_VALIDATION(result.message || result.stack || result.name);
 const sanitizeResultBoolean = result => result ? PASS_VALIDATION() : FAIL_VALIDATION();;
 const sanitizeResultNull = () => PASS_VALIDATION();
+const sanitizeTimeout = () => FAIL_VALIDATION("timeout");
 
 const sanitizeResultInvalid = result => {
   console.warn("[react-formilicious] Invalid form validation result", result);
