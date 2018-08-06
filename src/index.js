@@ -1,4 +1,5 @@
 import * as React from "react";
+import classNames from "classnames";
 import find from "./helpers/find";
 import makePromise, { thenCatch } from "./helpers/makePromise";
 import { sanitizeValidationResult, sanitizeOnSubmitResult } from "./validators";
@@ -215,19 +216,20 @@ export default class Form extends React.Component {
   }
 
   renderButtons() {
-    let { buttons = defaultButtons } = this.props;
+    let { buttons = defaultButtons() } = this.props;
     return buttons.map(this.renderButton);
   }
 
-  renderButton({ key, name, action }) {
+  renderButton({ key, name, action, type }) {
+    let actionFn;
     switch (action) {
-      case "submit": action = this.onSubmitButtonClick; break;
-      case "reset": action = this.onResetButtonClick; break;
-      default: action = action; break;
+      case "submit": actionFn = this.onSubmitButtonClick; break;
+      case "reset": actionFn = this.onResetButtonClick; break;
+      default: actionFn = () => action(this.getFlatDataStructure()); break;
     }
     const { waiting } = this.state;
     // todo: make this rendering logic adjustable
-    return (<a key={key} disabled={waiting} className={"button" + (waiting ? " is-loading" : "")} style={{ margin: 2 }} onClick={action}>
+    return (<a key={key} disabled={waiting} className={classNames("button", waiting && " is-loading", type && "is-" + type)} style={{ margin: 2 }} onClick={actionFn}>
       {name}
     </a>);
   }
