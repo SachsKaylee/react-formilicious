@@ -4,6 +4,7 @@ import makePromise, { thenCatch } from "./helpers/makePromise";
 import { sanitizeValidationResult, sanitizeOnSubmitResult } from "./validators";
 import ValidationResult from "./validators/ValidationResult";
 import { mustResolveWithin } from "./helpers/timeout";
+import defaultButtons from "./defaultButtons";
 
 export default class Form extends React.Component {
   constructor() {
@@ -214,21 +215,7 @@ export default class Form extends React.Component {
   }
 
   renderButtons() {
-    let { buttons } = this.props;
-    if (!buttons) {
-      buttons = [
-        {
-          key: "submit",
-          name: "✅ Submit",
-          action: "submit"
-        },
-        {
-          key: "reset",
-          name: "️❎ Reset",
-          action: "reset"
-        }
-      ];
-    };
+    let { buttons = defaultButtons } = this.props;
     return buttons.map(this.renderButton);
   }
 
@@ -240,7 +227,7 @@ export default class Form extends React.Component {
     }
     const { waiting } = this.state;
     // todo: make this rendering logic adjustable
-    return (<a key={key} disabled={waiting} className={"button" + (waiting ? " is-loading" : "")} onClick={action}>
+    return (<a key={key} disabled={waiting} className={"button" + (waiting ? " is-loading" : "")} style={{ margin: 2 }} onClick={action}>
       {name}
     </a>);
   }
