@@ -1,16 +1,19 @@
+// Basic Setup
 import * as React from 'react';
 import ReactDOM from 'react-dom';
-import "./index.css";
 import Form from '../../src';
+import "./index.css";
+// Fields
 import TextField from '../../src/fields/TextField';
+import TextArea from '../../src/fields/TextArea';
 import Checkbox from '../../src/fields/Checkbox';
+import ToggleField from './my-own-fields/ToggleField';
+// Validators
 import range from '../../src/validators/range';
 import required from '../../src/validators/required';
 import combined from '../../src/validators/combined';
-import checkForAvailableUsername from './my-own-validators/checkForAvailableUsername';
-import TextArea from '../../src/fields/TextArea';
-import ToggleField from './my-own-fields/ToggleField';
 import pwned from './my-own-validators/pwned';
+import checkForAvailableUsername from './my-own-validators/checkForAvailableUsername';
 
 class App extends React.Component {
   constructor() {
