@@ -1,4 +1,5 @@
 import * as validationResult from "../validators/ValidationResult";
+import * as defaultButtons from "../defaultButtons";
 
 const en = () => {
   validationResult.text.pending = "Please wait...";
