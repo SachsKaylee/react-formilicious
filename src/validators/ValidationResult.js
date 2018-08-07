@@ -11,8 +11,37 @@ export {
 };
 
 export default class ValidationResult extends React.PureComponent {
-  render() {
+  constructor() {
+    super();
+    this.mounted = false;
+    this.state = {
+      version: 0,
+      validated: "ok",
+      message: null
+    };
+  }
+
+  componentDidMount() {
+    this.mounted = true;
+  }
+
+  componentWillUnmount() {
+    this.mounted = false;
+  }
+
+  componentDidUpdate(prev) {
     const { validated, message } = this.props;
+    const version = this.state.version + 1;
+    if (validated === "pending" && prev.validated !== "pending") {
+      this.setState({ version }, () => window.setTimeout(() => this.mounted && this.setState(s => s.version === version ? { validated, message } : null), 100));
+    }
+    if (validated !== "pending" && prev.validated === "pending") {
+      this.setState({ version }, () => window.setTimeout(() => this.mounted && this.setState(s => s.version === version ? { validated, message } : null), 100));
+    }
+  }
+
+  render() {
+    const { validated, message } = this.state;
     switch (validated) {
       case "pending": return (<span className="help">{text.pending}</span>);
       case "error": return (<span className="help is-danger">{this.errorMessageOf(message)}</span>);

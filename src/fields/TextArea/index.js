@@ -9,7 +9,7 @@ export default class TextArea extends React.Component {
   render() {
     const {
       // Your element config expect type and key
-      name, placeholder, lines,
+      name, placeholder, lines = 3,
       // System created properties just for this field
       field: { validated, message },
       // System properties which are the same for all fields
