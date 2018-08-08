@@ -6,6 +6,14 @@ export default class TextField extends React.Component {
     return "";
   }
 
+  getType(mode) {
+    switch(mode) {
+      case "datetime": return "datetime-local";
+      case undefined: return "text";
+      default: return mode;
+    }
+  }
+
   render() {
     const {
       name, mode, placeholder,
@@ -21,7 +29,7 @@ export default class TextField extends React.Component {
           <input
             className="input"
             onChange={e => onChange(e.target.value)}
-            type={mode || "text"}
+            type={this.getType(mode)}
             disabled={waiting}
             value={value}
             placeholder={placeholder} />

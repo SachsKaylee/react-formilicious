@@ -15,6 +15,11 @@ import combined from '../../src/validators/combined';
 import pwned from './my-own-validators/pwned';
 import checkForAvailableUsername from './my-own-validators/checkForAvailableUsername';
 
+const additionalForms = [
+  require("./my-own-forms/DevTestForm"),
+  require("./my-own-forms/TextFieldForm"),
+];
+
 class App extends React.Component {
   constructor() {
     super();
@@ -44,7 +49,7 @@ class App extends React.Component {
 
   render() {
     return (<div className="container">
-      <div style={{ textAlign: "center", marginTop: 20 }}>
+      <div style={{ textAlign: "center" }}>
         <a href="https://github.com/PatrickSachs/react-formilicious" target="_blank">View on GitHub!<br />https://github.com/PatrickSachs/react-formilicious</a>
       </div>
       <hr />
@@ -152,8 +157,18 @@ class App extends React.Component {
   ]} />`}</pre>
         </div>
       </div>
+      {additionalForms.map(({ title, subtitle, default: TheForm }) => (<>
+        <hr />
+        <div className="card">
+          <div className="card-content">
+            <p className="title">{title}</p>
+            <p className="subtitle">{subtitle}</p>
+            <TheForm />
+          </div>
+        </div>
+      </>))}
     </div>);
   }
 }
 
-ReactDOM.render(<App />, document.querySelector('#app'));
+ReactDOM.render(<div style={{ padding: 20 }}><App /></div>, document.querySelector('#app'));
