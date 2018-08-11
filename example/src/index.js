@@ -3,8 +3,8 @@ import * as React from 'react';
 import ReactDOM from 'react-dom';
 import Form from '../../src';
 import "./index.css";
-import JSONEditor from "react-json-editor-ajrm";
-import en from 'react-json-editor-ajrm/locale/en';
+/*import JSONEditor from "react-json-editor-ajrm";
+import en from 'react-json-editor-ajrm/locale/en';*/
 // Fields
 import TextField from '../../src/fields/TextField';
 import TextArea from '../../src/fields/TextArea';
@@ -111,7 +111,8 @@ class App extends React.Component {
         <div className="card-content">
           <p className="title">Current form values</p>
           <p className="subtitle">Updated on <code className="has-text-info">onChange</code> event</p>
-          <JSONEditor
+          <pre>{JSON.stringify(this.state.currentFormValues, null, 2)}</pre>
+          {/*<JSONEditor
             id="data"
             placeholder={this.state.currentFormValues}
             theme="light_mitsuketa_tribute"
@@ -119,7 +120,7 @@ class App extends React.Component {
             width="100%"
             height="130px"
             confirmGood={false}
-          />
+          />*/}
         </div>
       </div>
       <hr />
