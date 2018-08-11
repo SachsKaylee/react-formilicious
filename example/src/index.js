@@ -3,6 +3,8 @@ import * as React from 'react';
 import ReactDOM from 'react-dom';
 import Form from '../../src';
 import "./index.css";
+import JSONEditor from "react-json-editor-ajrm";
+import en from 'react-json-editor-ajrm/locale/en';
 // Fields
 import TextField from '../../src/fields/TextField';
 import TextArea from '../../src/fields/TextArea';
@@ -18,6 +20,7 @@ import checkForAvailableUsername from './my-own-validators/checkForAvailableUser
 const additionalForms = [
   require("./my-own-forms/DevTestForm"),
   require("./my-own-forms/TextFieldForm"),
+  require("./my-own-forms/TagListForm"),
 ];
 
 class App extends React.Component {
@@ -108,9 +111,15 @@ class App extends React.Component {
         <div className="card-content">
           <p className="title">Current form values</p>
           <p className="subtitle">Updated on <code className="has-text-info">onChange</code> event</p>
-          <pre>
-            {JSON.stringify(this.state.currentFormValues, null, 2)}
-          </pre>
+          <JSONEditor
+            id="data"
+            placeholder={this.state.currentFormValues}
+            theme="light_mitsuketa_tribute"
+            locale={en}
+            width="100%"
+            height="130px"
+            confirmGood={false}
+          />
         </div>
       </div>
       <hr />
@@ -157,7 +166,7 @@ class App extends React.Component {
   ]} />`}</pre>
         </div>
       </div>
-      {additionalForms.map(({ title, subtitle, default: TheForm }) => (<>
+      {additionalForms.map(({ title, subtitle, default: TheForm }) => (<div key={TheForm.name}>
         <hr />
         <div className="card">
           <div className="card-content">
@@ -166,7 +175,7 @@ class App extends React.Component {
             <TheForm />
           </div>
         </div>
-      </>))}
+      </div>))}
     </div>);
   }
 }

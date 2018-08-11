@@ -16,7 +16,7 @@ export default class TextField extends React.Component {
 
   render() {
     const {
-      name, mode, placeholder,
+      name, mode, placeholder, step,
       field: { validated, message },
       system: { waiting },
       onChange, value
@@ -32,6 +32,7 @@ export default class TextField extends React.Component {
             type={this.getType(mode)}
             disabled={waiting}
             value={value}
+            step={step}
             placeholder={placeholder} />
         </div>
         <ValidationResult validated={validated} message={message} />

@@ -2,9 +2,18 @@ import * as React from 'react';
 
 import Form from '../../../src';
 import TextArea from '../../../src/fields/TextArea';
-import DemoBaseForm from ".";
+import DemoBaseForm from '.';
 
 class DevTestForm extends DemoBaseForm {
+  constructor() {
+    super();
+    this.onSubmit = this.onSubmit.bind(this);
+  }
+
+  onSubmit(data) {
+    alert("The form was submitted!\n\n" + JSON.stringify(data, null, 2));
+  }
+
   render() {
     return (<Form
       data={{

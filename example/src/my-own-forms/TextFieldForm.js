@@ -4,7 +4,7 @@ import Form from '../../../src';
 import TextField from '../../../src/fields/TextField';
 import DemoBaseForm from '.';
 
-class DevTestForm extends DemoBaseForm {
+class TextFieldForm extends DemoBaseForm {
   render() {
     return (<Form
       data={{
@@ -88,7 +88,8 @@ class DevTestForm extends DemoBaseForm {
           key: "number",
           name: "🔢 1, 2, 3, 4...",
           mode: "number",
-          placeholder: "Einz, Zwo, Drei, Vier..."
+          placeholder: "Einz, Zwo, Drei, Vier...",
+          step: 2
         },
         /*{
           type: TextField,
@@ -123,5 +124,5 @@ class DevTestForm extends DemoBaseForm {
 }
 
 export const title = "TextField form";
-export const subtitle = "Testing text fields.";
-export default DevTestForm;
+export const subtitle = "Testing text fields. - Best experience on mobile";
+export default TextFieldForm;
