@@ -1,4 +1,4 @@
-import { sanitizeValidationResult } from ".";
+import { sanitizeValidationResult } from "../logic/validators/sanitization";
 import makePromise from "../helpers/makePromise";
 
 const combined = (...all) => {

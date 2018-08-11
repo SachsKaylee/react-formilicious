@@ -2,10 +2,11 @@ import * as React from "react";
 import classNames from "classnames";
 import find from "./helpers/find";
 import makePromise, { thenCatch } from "./helpers/makePromise";
-import { sanitizeValidationResult, sanitizeOnSubmitResult } from "./validators";
+import { sanitizeValidationResult, sanitizeOnSubmitResult } from "./logic/validators/sanitization";
 import ValidationResult from "./validators/ValidationResult";
 import { mustResolveWithin } from "./helpers/timeout";
 import defaultButtons from "./defaultButtons";
+import { runValidator } from "./logic/validators/validation";
 
 export default class Form extends React.Component {
   constructor() {
@@ -141,11 +142,9 @@ export default class Form extends React.Component {
    */
   runElementValidator(element, value = this.getFieldValue(element.key)) {
     const { validatorTimeout = 3000 } = this.props;
-    const promise0 = makePromise(() => element.validator
-      ? element.validator(value, this.getSystemProps())
-      : { validated: "ok", message: null });
-    const promise1 = validatorTimeout >= 0 ? mustResolveWithin(promise0, validatorTimeout) : promise0;
-    return promise1.then(sanitizeValidationResult).catch(res => sanitizeValidationResult(res, true));
+    return runValidator(element.validator, value, {
+      timeout: validatorTimeout
+    });
   }
 
   onResetButtonClick(e) {
@@ -162,9 +161,10 @@ export default class Form extends React.Component {
         ? this.validateElements(elements).then(() => this.submitForm())
         : this.submitForm();
       thenCatch(promise, (res, success) => {
-        this.setState({ waiting: false }, () => success
+        this.mounted && this.setState({ waiting: false });
+        success
           ? console.log("[react-formilicious] Form submit!", { res })
-          : console.error("[react-formilicious] Form submit error!", { res }));
+          : console.error("[react-formilicious] Form submit error!", { res });
       });
     });
   }

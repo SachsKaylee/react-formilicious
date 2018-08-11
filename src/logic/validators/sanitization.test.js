@@ -1,4 +1,4 @@
-import { sanitizeValidationResult } from "../../src/validators";
+import { sanitizeValidationResult } from "./sanitization";
 import * as React from "react";
 
 /**
