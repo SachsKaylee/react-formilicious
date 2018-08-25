@@ -91,7 +91,9 @@ export default class Form extends React.Component {
     }
   }
 
-  onChangeField(key, value) {
+  onChangeField(key, rawValue) {
+    // todo: return promise
+    // todo: add timeout to field resolve
     const element = this.getElement(key);
     this.setState(s => ({
       fields: {
@@ -99,12 +101,37 @@ export default class Form extends React.Component {
           validated: "pending",
           message: null,
           version: (s.fields[key] && s.fields[key].version) || 0,
-          value
+          // Do not change value here, keep previous one & wait for the promise to resolve.
         }
       }
-    }), () => this.validateElement(element)
-      .then(this.onChange)
-      .catch(error => console.error("[react-formilicious] Form on change error!", error)));
+    }), () => {
+      const version = this.state.fields[key].version;
+      Promise.resolve(rawValue)
+        .then(value => {
+          return new Promise((resolveValidation, rejectValidation) => {
+            this.setState(s => (s.fields[key].validated === "pending" && s.fields[key].version === version
+              ? { fields: { ...s.fields, [key]: { validated: "pending", message: null, version, value } } }
+              : null), () => {
+                if (this.state.fields[key].version === version) {
+                  // The validateElement function does not reject for "error" validation. It rejects for
+                  // actual errors, like a version difference or an unmounted componenet.
+                  this.validateElement(element)
+                    .then(resolveValidation)
+                    .catch(rejectValidation);
+                } else {
+                  rejectValidation("invalid-version");
+                }
+              });
+          })
+        })
+        .then(this.onChange)
+        .catch(valueError => {
+          valueError = sanitizeValidationResult(valueError, true);
+          this.setState(s => (s.fields[key].validated === "pending" && s.fields[key].version === version
+            ? { fields: { ...s.fields, [key]: { validated: valueError.validated, message: valueError.message, version } } }
+            : null), () => "todo reject promise");
+        });
+    });
   }
 
   validateElement(element) {
