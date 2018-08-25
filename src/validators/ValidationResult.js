@@ -33,10 +33,10 @@ export default class ValidationResult extends React.PureComponent {
     const { validated, message } = this.props;
     const version = this.state.version + 1;
     if (validated === "pending" && prev.validated !== "pending") {
-      this.setState({ version }, () => window.setTimeout(() => this.mounted && this.setState(s => s.version === version ? { validated, message } : null), 100));
+      this.setState({ version }, () => setTimeout(() => this.mounted && this.setState(s => s.version === version ? { validated, message } : null), 100));
     }
     if (validated !== "pending" && prev.validated === "pending") {
-      this.setState({ version }, () => window.setTimeout(() => this.mounted && this.setState(s => s.version === version ? { validated, message } : null), 100));
+      this.setState({ version }, () => setTimeout(() => this.mounted && this.setState(s => s.version === version ? { validated, message } : null), 100));
     }
   }
 
