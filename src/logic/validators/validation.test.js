@@ -55,6 +55,40 @@ const run = () => {
     const options = makeOptions({ timeout: 0 });
     return runValidator(validator, value, options).then(res => expect(res.validated).toEqual("error"));
   });
+
+  test("Run negative timeout sync passing validator", () => {
+    const validator = () => ({ validated: "ok", message: "" });
+    const value = "Hello World";
+    const options = makeOptions({ timeout: -100 });
+    return runValidator(validator, value, options).then(res => expect(res.validated).toEqual("ok"));
+  });
+
+  test("Run negative timeout async passing validator", () => {
+    const validator = () => pass(300).then(() => ({ validated: "ok", message: "" }));
+    const value = "Hello World";
+    const options = makeOptions({ timeout: -100 });
+    return runValidator(validator, value, options).then(res => expect(res.validated).toEqual("ok"));
+  });
+
+  test("Run negative timeout sync failing validator", () => {
+    const validator = () => ({ validated: "error", message: "Validator" });
+    const value = "Hello World";
+    const options = makeOptions({ timeout: -100 });
+    return runValidator(validator, value, options).then(res => expect(res).toEqual({
+      validated: "error",
+      message: "Validator"
+    }));
+  });
+
+  test("Run negative timeout async failing validator", () => {
+    const validator = () => pass(300).then(() => ({ validated: "error", message: "Validator" }));
+    const value = "Hello World";
+    const options = makeOptions({ timeout: -100 });
+    return runValidator(validator, value, options).then(res => expect(res).toEqual({
+      validated: "error",
+      message: "Validator"
+    }));
+  });
 };
 
 run();
