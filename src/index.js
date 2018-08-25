@@ -95,6 +95,7 @@ export default class Form extends React.Component {
     // todo: return promise
     // todo: add timeout to field resolve
     const element = this.getElement(key);
+    const { fieldTimeout = 3000 } = this.props;
     this.setState(s => ({
       fields: {
         ...s.fields, [key]: {
@@ -106,7 +107,7 @@ export default class Form extends React.Component {
       }
     }), () => {
       const version = this.state.fields[key].version;
-      Promise.resolve(rawValue)
+      (fieldTimeout >= 0 ? mustResolveWithin(Promise.resolve(rawValue), fieldTimeout) : Promise.resolve(rawValue))
         .then(value => {
           return new Promise((resolveValidation, rejectValidation) => {
             this.setState(s => (s.fields[key].validated === "pending" && s.fields[key].version === version
