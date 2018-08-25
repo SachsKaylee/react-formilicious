@@ -1,5 +1,6 @@
 import makePromise from "../../helpers/makePromise";
 import { sanitizeValidationResult } from "./sanitization";
+import { mustResolveWithin } from "../../helpers/timeout";
 
 /**
  * Runs the validator on the given value.

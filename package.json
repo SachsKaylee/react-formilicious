@@ -28,6 +28,7 @@
   "sideEffects": false,
   "scripts": {
     "test": "cross-env NODE_ENV=test BABEL_ENV=modules:commonjs jest",
+    "test:watch": "cross-env NODE_ENV=test BABEL_ENV=modules:commonjs jest --watch",
     "test:release": "npm run test && npm run build && npm pack ./dist",
     "build": "npm run build:commonjs && npm run build:es && npm run build:copy-files && npm run test",
     "build:commonjs": "cross-env NODE_ENV=production BABEL_ENV=modules:commonjs babel ./src --out-dir ./dist/ --ignore *.test.js",
