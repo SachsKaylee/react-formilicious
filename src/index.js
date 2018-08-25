@@ -7,6 +7,8 @@ import ValidationResult from "./validators/ValidationResult";
 import { mustResolveWithin } from "./helpers/timeout";
 import defaultButtons from "./defaultButtons";
 import { runValidator } from "./logic/validators/validation";
+import { startTask } from "./logic/validators/value";
+import filterObject, { isNotUndefined } from "./helpers/filterObject";
 
 export default class Form extends React.Component {
   constructor() {
@@ -46,6 +48,33 @@ export default class Form extends React.Component {
     return { ...oldState, initialData };
   }
 
+  setStatePromise(fn) {
+    return new Promise((res, rej) => {
+      let error;
+      let changed;
+      if (this.mounted) {
+        this.setState(s => {
+          try {
+            changed = fn(s);
+            error = null;
+          } catch (e) {
+            changed = null;
+            error = e;
+          }
+          return changed;
+        }, () => {
+          if (error) {
+            rej(error)
+          } else {
+            res(changed);
+          }
+        })
+      } else {
+        rej("unmounted");
+      }
+    })
+  }
+
   getSystemProps() {
     const { initialData, fields, waiting } = this.state;
     return {
@@ -62,15 +91,26 @@ export default class Form extends React.Component {
     };
   }
 
-  getFieldValue(key) {
-    const field = this.state.fields[key];
+  getFieldValue(key, state = this.state) {
+    const field = state.fields[key];
     if (field && field.value !== undefined) return field.value;
     const element = this.getElement(key);
     if (!element.ignoreData) {
-      const initialValue = this.state.initialData[key];
+      const initialValue = state.initialData[key];
       if (initialValue !== undefined) return initialValue;
     }
     return element.type.getDefaultValue();
+  }
+
+  putFieldValue(key, values) {
+    values = filterObject(values, isNotUndefined);
+    return this.setStatePromise(s => ({
+      fields: {
+        ...s.fields, [key]: s.fields[key]
+          ? { ...s.fields[key], ...values }
+          : values
+      }
+    })).then(() => this.state.fields[key]);
   }
 
   getElement(key) {
@@ -91,70 +131,54 @@ export default class Form extends React.Component {
     }
   }
 
-  onChangeField(key, rawValue) {
-    // todo: return promise
-    // todo: add timeout to field resolve
+  getFieldVersion(key) {
+    return (this.state.fields[key] && this.state.fields[key].version) || 0;
+  }
+
+  onChangeField(key, value) {
+    // todo: timeout
+    //const { fieldTimeout = 3000 } = this.props;
     const element = this.getElement(key);
-    const { fieldTimeout = 3000 } = this.props;
-    this.setState(s => ({
-      fields: {
-        ...s.fields, [key]: {
-          validated: "pending",
-          message: null,
-          version: (s.fields[key] && s.fields[key].version) || 0,
-          // Do not change value here, keep previous one & wait for the promise to resolve.
+    const version = this.getFieldVersion(key) + 1
+    //console.log("Change", { version });
+    this.putFieldValue(key, { version }).then(field => {
+      startTask(update => {
+        //console.log("Update", { version, update, field })
+        if (version === this.getFieldVersion(key)) {
+          return this.putFieldValue(key, update);
+        } else {
+          // If we have a version mistach, it means that a newer value is currently being validated.
+          // We thus abort.
+          throw "old-version";
         }
-      }
-    }), () => {
-      const version = this.state.fields[key].version;
-      (fieldTimeout >= 0 ? mustResolveWithin(Promise.resolve(rawValue), fieldTimeout) : Promise.resolve(rawValue))
-        .then(value => {
-          return new Promise((resolveValidation, rejectValidation) => {
-            this.setState(s => (s.fields[key].validated === "pending" && s.fields[key].version === version
-              ? { fields: { ...s.fields, [key]: { validated: "pending", message: null, version, value } } }
-              : null), () => {
-                if (this.state.fields[key].version === version) {
-                  // The validateElement function does not reject for "error" validation. It rejects for
-                  // actual errors, like a version difference or an unmounted componenet.
-                  this.validateElement(element)
-                    .then(resolveValidation)
-                    .catch(rejectValidation);
-                } else {
-                  rejectValidation("invalid-version");
-                }
-              });
-          })
-        })
-        .then(this.onChange)
-        .catch(valueError => {
-          valueError = sanitizeValidationResult(valueError, true);
-          this.setState(s => (s.fields[key].validated === "pending" && s.fields[key].version === version
-            ? { fields: { ...s.fields, [key]: { validated: valueError.validated, message: valueError.message, version } } }
-            : null), () => "todo reject promise");
-        });
+      })(element, makePromise(value), { timeout: 3000 });
     });
   }
 
   validateElement(element) {
     const key = element.key;
-    return new Promise((resolve, reject) => {
-      const value = this.getFieldValue(key);
-      const version = ((this.state.fields[key] && this.state.fields[key].version) || 0) + 1;
-      this.setState(s => ({
-        fields: { ...s.fields, [key]: { validated: "pending", message: null, value, version } }
-      }), () => {
-        this.runElementValidator(element, value).then(res => {
-          if (this.mounted) {
-            // todo: reject promise if version differs!
-            this.setState(s => (s.fields[key].validated === "pending" && s.fields[key].version === version
-              ? { fields: { ...s.fields, [key]: { validated: res.validated, message: res.message, version, value } } }
-              : null), () => resolve(res));
-          } else {
-            reject("unmounted");
+    const value = this.getFieldValue(key);
+    return this.setStatePromise(s => ({
+      fields: {
+        ...s.fields, [key]: {
+          validated: "pending",
+          message: null,
+          version: (s.fields[key] && s.fields[key].version) || 0,
+          value
+        }
+      }
+    }))
+      .then(() => this.runElementValidator(element, value))
+      .then(res => this.setStatePromise(s => ({
+        fields: {
+          ...s.fields, [key]: {
+            validated: res.validated,
+            message: res.message,
+            version: s.fields[key].version,
+            value
           }
-        });
-      });
-    });
+        }
+      })).then(() => res));
   }
 
   validateElements(elements) {
