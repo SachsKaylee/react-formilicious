@@ -32,6 +32,16 @@ const run = () => {
     return runValidator(validator, value, options).then(res => expect(res.validated).toEqual("error"));
   });
 
+  test("Run async passing validator with rejected promise", () => {
+    const validator = () => fail(300, { validated: "ok", message: "Rejected promises always fail." });
+    const value = "Hello World";
+    const options = makeOptions();
+    return runValidator(validator, value, options).then(res => expect(res).toEqual({
+      validated: "error",
+      message: "Rejected promises always fail."
+    }));
+  });
+
   test("Run async timeout validator", () => {
     const validator = () => pass(300).then(() => ({ validated: "ok", message: "" }));
     const value = "Hello World";
