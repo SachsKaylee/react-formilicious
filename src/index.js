@@ -4,7 +4,7 @@ import find from "./helpers/find";
 import makePromise, { thenCatch } from "./helpers/makePromise";
 import { sanitizeValidationResult, sanitizeOnSubmitResult } from "./logic/validators/sanitization";
 import ValidationResult from "./validators/ValidationResult";
-import { mustResolveWithin, fail } from "./helpers/timeout";
+import { mustResolveWithin } from "./helpers/timeout";
 import defaultButtons from "./defaultButtons";
 import { runValidator } from "./logic/validators/validation";
 import filterObject, { isNotUndefined } from "./helpers/filterObject";
