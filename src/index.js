@@ -290,6 +290,10 @@ export default class Form extends React.Component {
         return this.putFieldValue(key, result);
       }
     }));
+    const error = find(validation, single => single.validated === "error");
+    if (error) {
+      throw error;
+    }
   }
 
   render() {
