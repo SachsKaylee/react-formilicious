@@ -150,12 +150,12 @@ export default class Form extends React.Component {
       console.warn("[react-formilicious]", "Tried to update field \"" + key + "\" with the following value while form was in waiting state.", rawValue);
       return;
     }
-
     const { fieldTimeout = 3000 } = this.props;
     const element = this.getElement(key);
     const field = await this.putFieldValue(key, {
       version: this.getFieldVersion(key) + 1
     });
+    let value = field.value;
     try {
       await mustResolveWithin((async () => {
         // First set the field to pending, then let's start the work.
@@ -164,13 +164,13 @@ export default class Form extends React.Component {
           validated: "pending",
           message: null
         });
-        const value = await makePromise(rawValue);
+        value = await makePromise(rawValue);
         // Once the field value has been resolved, set it to the field, and then start validating.
         this.fieldMustBeVersion(key, field.version);
         await this.putFieldValue(key, {
           value: value
         });
-        const validation = await runValidator(element.validator, value, { timeout: -1 }); // todo: remove timeout
+        const validation = await runValidator(element.validator, value);
         // Once we have validated put the result into the field.
         this.fieldMustBeVersion(key, field.version);
         await this.putFieldValue(key, {
@@ -197,34 +197,29 @@ export default class Form extends React.Component {
     }
   }
 
-  validateElement(element) {
+  async revalidateElement(element) {
     const key = element.key;
-    const value = this.getFieldValue(key);
-    return this.setStatePromise(s => ({
-      fields: {
-        ...s.fields, [key]: {
-          validated: "pending",
-          message: null,
-          version: (s.fields[key] && s.fields[key].version) || 0,
-          value
-        }
-      }
-    }))
-      .then(() => this.runElementValidator(element, value))
-      .then(res => this.setStatePromise(s => ({
-        fields: {
-          ...s.fields, [key]: {
-            validated: res.validated,
-            message: res.message,
-            version: s.fields[key].version,
-            value
-          }
-        }
-      })).then(() => res));
+    let validation;
+    // todo: is versioning required here?
+    await this.putFieldValue(key, {
+      validated: "pending",
+      message: null
+    });
+    const { fieldTimeout = 3000 } = this.props;
+    try {
+      validation = await mustResolveWithin(runValidator(element.validator, this.getFieldValue(key)), fieldTimeout);
+    } catch (error) {
+      validation = sanitizeValidationResult(error, true);
+    }
+    await this.putFieldValue(key, {
+      validated: validation.validated,
+      message: validation.message
+    });
+    return validation;
   }
 
-  validateElements(elements) {
-    const all = elements.map(element => this.validateElement(element));
+  revalidateElements(elements) {
+    const all = elements.map(element => this.revalidateElement(element));
     return Promise.all(all);
   }
 
@@ -263,7 +258,7 @@ export default class Form extends React.Component {
     // Validate the form if desired.
     const { elements, validateBeforeSubmit = true } = this.props;
     if (validateBeforeSubmit) {
-      await this.validateElements(elements);
+      await this.revalidateElements(elements);
     }
     // Submit the actual form.
     try {
