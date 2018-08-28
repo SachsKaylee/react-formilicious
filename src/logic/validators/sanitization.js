@@ -18,11 +18,11 @@ const sanitizeValidationResult0 = (result) => {
   return sanitizeResultInvalid(result);
 };
 
-const sanitizeOnSubmitResult = result => {
-  const validation = sanitizeValidationResult(result);
+const sanitizeOnSubmitResult = (result, forceError = false) => {
+  const validation = sanitizeValidationResult(result, forceError);
   return {
     ...validation,
-    key: (result && "key" in result && result.key) || null
+    key: (result && typeof result.key === "string" && result.key) || null
   };
 };
 

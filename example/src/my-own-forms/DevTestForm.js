@@ -3,6 +3,7 @@ import * as React from 'react';
 import Form from '../../../src';
 import TextArea from '../../../src/fields/TextArea';
 import DemoBaseForm from '.';
+import { pass } from '../../../src/helpers/timeout';
 
 class DevTestForm extends DemoBaseForm {
   constructor() {
@@ -10,7 +11,11 @@ class DevTestForm extends DemoBaseForm {
     this.onSubmit = this.onSubmit.bind(this);
   }
 
-  onSubmit(data) {
+  async onSubmit(data) {
+    await pass(1000);
+    const error = new Error("We don't accept THAT kind of feedback!");
+    error.key = "feedback";
+    throw error;
     alert("The form was submitted!\n\n" + JSON.stringify(data, null, 2));
   }
 

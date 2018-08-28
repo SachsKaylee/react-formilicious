@@ -223,20 +223,6 @@ export default class Form extends React.Component {
     return Promise.all(all);
   }
 
-  /**
-   * Runs the validator of the given element with the optional given value. If no value is given, the current value of the field is used instead.
-   * Does not update the state, etc...
-   * 
-   * This promise always resolves and never fails!
-   */
-  runElementValidator(element, value = this.getFieldValue(element.key)) {
-    // todo: remove this
-    const { validatorTimeout = 3000 } = this.props;
-    return runValidator(element.validator, value, {
-      timeout: validatorTimeout
-    });
-  }
-
   onResetButtonClick(e) {
     e.preventDefault();
     if (!this.isFormReady()) {
@@ -281,31 +267,27 @@ export default class Form extends React.Component {
     return find(fields, field => field.validated === "error" || field.validated === "pending");
   }
 
-  submitForm() {
-    // todo: rewrite to async/await
-    return new Promise((resolve, reject) => {
-      const invalidField = this.findFormError();
-      if (invalidField) {
-        reject(invalidField);
+  async submitForm() {
+    const invalidField = this.findFormError();
+    if (invalidField) {
+      throw invalidField;
+    }
+    await this.setStatePromise({ formValidationResult: null });
+    const { onSubmit } = this.props;
+    const data = this.getFlatDataStructure();
+    let validation;
+    try {
+      const result = await makePromise(() => onSubmit(data));
+      validation = sanitizeOnSubmitResult(result);
+    } catch (error) {
+      validation = sanitizeOnSubmitResult(error, true);
+    }
+    await this.setStatePromise(s => {
+      const { key, ...result } = validation; // todo: may return multiple results!
+      if (!key || !this.getElement(key)) {
+        return { formValidationResult: result };
       } else {
-        this.setState({ formValidationResult: null }, () => {
-          const { onSubmit } = this.props;
-          const data = this.getFlatDataStructure();
-          return thenCatch(makePromise(() => onSubmit(data)), onSubmitResult => {
-            if (this.mounted) {
-              this.setState(s => {
-                const { key, ...result } = sanitizeOnSubmitResult(onSubmitResult); // todo: may return multiple results!
-                if (!key || !this.getElement(key)) {
-                  return { formValidationResult: result };
-                } else {
-                  return { fields: { ...s.fields, [key]: result } };
-                }
-              }, () => resolve(data));
-            } else {
-              reject("unmounted");
-            }
-          });
-        });
+        return { fields: { ...s.fields, [key]: result } };
       }
     });
   }
