@@ -11,6 +11,7 @@ import filterObject, { isNotUndefined } from "./helpers/filterObject";
 
 export default class Form extends React.Component {
   constructor() {
+    // todo: add a prop to validate the initial values.
     super();
     this.mounted = false;
     this.state = {
@@ -47,14 +48,14 @@ export default class Form extends React.Component {
     return { ...oldState, initialData };
   }
 
-  setStatePromise(fn) {
+  setStatePromise(update) {
     return new Promise((res, rej) => {
       let error;
       let changed;
       if (this.mounted) {
         this.setState(s => {
           try {
-            changed = fn(s);
+            changed = typeof update === "function" ? update(s) : update;
             error = null;
           } catch (e) {
             changed = null;
@@ -145,6 +146,11 @@ export default class Form extends React.Component {
   }
 
   async onChangeField(key, rawValue) {
+    if (this.state.waiting) {
+      console.warn("[react-formilicious]", "Tried to update field \"" + key + "\" with the following value while form was in waiting state.", rawValue);
+      return;
+    }
+
     const { fieldTimeout = 3000 } = this.props;
     const element = this.getElement(key);
     const field = await this.putFieldValue(key, {
@@ -229,6 +235,7 @@ export default class Form extends React.Component {
    * This promise always resolves and never fails!
    */
   runElementValidator(element, value = this.getFieldValue(element.key)) {
+    // todo: remove this
     const { validatorTimeout = 3000 } = this.props;
     return runValidator(element.validator, value, {
       timeout: validatorTimeout
@@ -237,24 +244,41 @@ export default class Form extends React.Component {
 
   onResetButtonClick(e) {
     e.preventDefault();
+    if (!this.isFormReady()) {
+      console.warn("[react-formilicious]", "Tried to reset form while form was in waiting state, or a field still pending.");
+      return;
+    }
     this.setState({ fields: {}, formValidationResult: null });
   }
 
-  onSubmitButtonClick(e) {
+  async onSubmitButtonClick(e) {
     e.preventDefault();
-    this.setState({ waiting: true }, () => {
-      // todo: add a prop to validate the initial values.
-      const { elements, validateBeforeSubmit = true } = this.props;
-      const promise = validateBeforeSubmit
-        ? this.validateElements(elements).then(() => this.submitForm())
-        : this.submitForm();
-      thenCatch(promise, (res, success) => {
-        this.mounted && this.setState({ waiting: false });
-        success
-          ? console.log("[react-formilicious] Form submit!", { res })
-          : console.error("[react-formilicious] Form submit error!", { res });
-      });
-    });
+    // Cannot submit a form that is waiting. (waiting state is true, or a field is pending)
+    if (!this.isFormReady()) {
+      console.warn("[react-formilicious]", "Tried to submit form while form was in waiting state, or a field still pending.");
+      return;
+    }
+    // Set the form to waiting, to lock everything else out.
+    await this.setStatePromise({ waiting: true });
+    // Validate the form if desired.
+    const { elements, validateBeforeSubmit = true } = this.props;
+    if (validateBeforeSubmit) {
+      await this.validateElements(elements);
+    }
+    // Submit the actual form.
+    try {
+      const res = await this.submitForm();
+      console.log("[react-formilicious]", "Form submit!", res);
+    } catch (e) {
+      console.error("[react-formilicious]", "Form submit error!", e);
+    }
+    // Release the waiting state.
+    await this.setStatePromise({ waiting: false });
+  }
+
+  isFormReady() {
+    const { waiting, fields } = this.state;
+    return !waiting && !find(fields, field => field.validated === "pending");
   }
 
   findFormError() {
@@ -263,6 +287,7 @@ export default class Form extends React.Component {
   }
 
   submitForm() {
+    // todo: rewrite to async/await
     return new Promise((resolve, reject) => {
       const invalidField = this.findFormError();
       if (invalidField) {
@@ -315,9 +340,9 @@ export default class Form extends React.Component {
       case "reset": actionFn = this.onResetButtonClick; break;
       default: actionFn = () => action(this.getFlatDataStructure()); break;
     }
-    const { waiting } = this.state;
+    const isReady = this.isFormReady();
     // todo: make this rendering logic adjustable
-    return (<a key={key} disabled={waiting} className={classNames("button", waiting && " is-loading", type && "is-" + type)} style={{ margin: 2 }} onClick={actionFn}>
+    return (<a key={key} disabled={!isReady} className={classNames("button", !isReady && " is-loading", type && "is-" + type)} style={{ margin: 2 }} onClick={actionFn}>
       {name}
     </a>);
   }
