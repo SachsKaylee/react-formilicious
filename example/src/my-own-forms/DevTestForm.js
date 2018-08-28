@@ -2,6 +2,7 @@ import * as React from 'react';
 
 import Form from '../../../src';
 import TextArea from '../../../src/fields/TextArea';
+import TextField from '../../../src/fields/TextField';
 import DemoBaseForm from '.';
 import { pass } from '../../../src/helpers/timeout';
 
@@ -13,10 +14,21 @@ class DevTestForm extends DemoBaseForm {
 
   async onSubmit(data) {
     await pass(1000);
-    const error = new Error("We don't accept THAT kind of feedback!");
+    throw [
+      {
+        key: "feedback",
+        message: "We don't accept THAT kind of feedback!"
+      },
+      parseInt(data.rating, 10) < 10 && {
+        key: "rating",
+        message: "Boo! Way too low!"
+      },
+      "Overall, this form looks rather badly filled out."
+    ];
+    /*const error = new Error("We don't accept THAT kind of feedback!");
     error.key = "feedback";
     throw error;
-    alert("The form was submitted!\n\n" + JSON.stringify(data, null, 2));
+    alert("The form was submitted!\n\n" + JSON.stringify(data, null, 2));*/
   }
 
   render() {
@@ -26,6 +38,19 @@ class DevTestForm extends DemoBaseForm {
       }}
       onSubmit={this.onSubmit}
       elements={[
+        {
+          type: TextField,
+          key: "customerName",
+          name: "🤑 Customer",
+          placeholder: "The name of the customer that sent the feedback"
+        },
+        {
+          type: TextField,
+          key: "rating",
+          name: "🥈 Rating",
+          mode: "number",
+          placeholder: "Your rating"
+        },
         {
           type: TextArea,
           key: "feedback",

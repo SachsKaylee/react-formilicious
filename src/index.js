@@ -282,14 +282,14 @@ export default class Form extends React.Component {
     } catch (error) {
       validation = sanitizeOnSubmitResult(error, true);
     }
-    await this.setStatePromise(s => {
-      const { key, ...result } = validation; // todo: may return multiple results!
+    await Promise.all(validation.map(single => {
+      const { key, ...result } = single;
       if (!key || !this.getElement(key)) {
-        return { formValidationResult: result };
+        return this.setStatePromise({ formValidationResult: result });
       } else {
-        return { fields: { ...s.fields, [key]: result } };
+        return this.putFieldValue(key, result);
       }
-    });
+    }));
   }
 
   render() {

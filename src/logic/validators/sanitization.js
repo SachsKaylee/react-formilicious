@@ -19,11 +19,16 @@ const sanitizeValidationResult0 = (result) => {
 };
 
 const sanitizeOnSubmitResult = (result, forceError = false) => {
-  const validation = sanitizeValidationResult(result, forceError);
-  return {
-    ...validation,
-    key: (result && typeof result.key === "string" && result.key) || null
-  };
+  if (!Array.isArray(result)) { 
+    result = [result]; 
+  }
+  return result.map(single => {
+    const validation = sanitizeValidationResult(single, forceError);
+    return {
+      ...validation,
+      key: (single && typeof single.key === "string" && single.key) || null
+    };
+  });
 };
 
 const sanitizeResultObject = object => VALIDATION(sanitizeResultObjectGetValidated(object), object.message || object.name || null);
