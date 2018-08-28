@@ -7,7 +7,7 @@ import { mustResolveWithin } from "../../helpers/timeout";
  * All options are required!
  * This promise never fails. We promise!
  */
-const runValidator = (validator, value, { timeout }) => {
+const runValidator = (validator, value, { timeout }) => { // todo: remove timeout from this function
   const promise0 = makePromise(() => validator
     ? validator(value)
     : { validated: "ok", message: null });

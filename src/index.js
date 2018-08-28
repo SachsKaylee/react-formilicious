@@ -4,10 +4,9 @@ import find from "./helpers/find";
 import makePromise, { thenCatch } from "./helpers/makePromise";
 import { sanitizeValidationResult, sanitizeOnSubmitResult } from "./logic/validators/sanitization";
 import ValidationResult from "./validators/ValidationResult";
-import { mustResolveWithin } from "./helpers/timeout";
+import { mustResolveWithin, fail } from "./helpers/timeout";
 import defaultButtons from "./defaultButtons";
 import { runValidator } from "./logic/validators/validation";
-import { startTask } from "./logic/validators/value";
 import filterObject, { isNotUndefined } from "./helpers/filterObject";
 
 export default class Form extends React.Component {
@@ -135,24 +134,61 @@ export default class Form extends React.Component {
     return (this.state.fields[key] && this.state.fields[key].version) || 0;
   }
 
-  onChangeField(key, value) {
-    // todo: timeout
-    //const { fieldTimeout = 3000 } = this.props;
+  fieldMustBeVersion(key, version, willThrow = true) {
+    if (version !== this.getFieldVersion(key)) {
+      if (willThrow) {
+        throw "version-mismatch";
+      }
+      return false;
+    }
+    return true;
+  }
+
+  async onChangeField(key, rawValue) {
+    const { fieldTimeout = 3000 } = this.props;
     const element = this.getElement(key);
-    const version = this.getFieldVersion(key) + 1
-    //console.log("Change", { version });
-    this.putFieldValue(key, { version }).then(field => {
-      startTask(update => {
-        //console.log("Update", { version, update, field })
-        if (version === this.getFieldVersion(key)) {
-          return this.putFieldValue(key, update);
-        } else {
-          // If we have a version mistach, it means that a newer value is currently being validated.
-          // We thus abort.
-          throw "old-version";
-        }
-      })(element, makePromise(value), { timeout: 3000 });
+    const field = await this.putFieldValue(key, {
+      version: this.getFieldVersion(key) + 1
     });
+    try {
+      await mustResolveWithin((async () => {
+        // First set the field to pending, then let's start the work.
+        this.fieldMustBeVersion(key, field.version);
+        await this.putFieldValue(key, {
+          validated: "pending",
+          message: null
+        });
+        const value = await makePromise(rawValue);
+        // Once the field value has been resolved, set it to the field, and then start validating.
+        this.fieldMustBeVersion(key, field.version);
+        await this.putFieldValue(key, {
+          value: value
+        });
+        const validation = await runValidator(element.validator, value, { timeout: -1 }); // todo: remove timeout
+        // Once we have validated put the result into the field.
+        this.fieldMustBeVersion(key, field.version);
+        await this.putFieldValue(key, {
+          validated: validation.validated,
+          message: validation.message,
+          value: value
+        });
+      })(), fieldTimeout);
+      // Fire the onChange event
+      if (this.fieldMustBeVersion(key, field.version, false)) {
+        this.onChange();
+      };
+    } catch (error) {
+      // If at any point a promise gets rejected, count the validation as failed.
+      console.error("Field error", error);
+      if (this.fieldMustBeVersion(key, field.version, false)) {
+        error = sanitizeValidationResult(error, true);
+        await this.putFieldValue(key, {
+          validated: error.validated,
+          message: error.message,
+          value: value
+        });
+      }
+    }
   }
 
   validateElement(element) {
