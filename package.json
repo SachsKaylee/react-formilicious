@@ -1,5 +1,5 @@
 {
-  "name": "react-formilicious",
+  "name": "@react-formilicious/core",
   "version": "1.0.0",
   "description": "Easy to use, modular and simply delicious forms for React. 📝",
   "author": "PatrickSachs",
@@ -56,11 +56,11 @@
     "fs-extra": "^7.0.0",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
-    "rimraf": "^2.6.2"
+    "rimraf": "^2.6.2",
+    "jest": "^23.5.0"
   },
   "dependencies": {
     "@babel/runtime": "^7.0.0-rc.1",
-    "classnames": "^2.2.6",
-    "jest": "^23.5.0"
+    "classnames": "^2.2.6"
   }
 }
