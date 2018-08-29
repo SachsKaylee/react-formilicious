@@ -1,0 +1,21 @@
+{
+  "name": "@react-formilicious/validator-pwned",
+  "version": "1.0.0",
+  "description": "Have I Been Pwned? for react-formilicious 👊",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc"
+  },
+  "files": [
+    "index.js",
+    "index.d.ts"
+  ],
+  "author": "Patrick Sachs",
+  "license": "MIT",
+  "dependencies": {
+    "js-sha1": "^0.6.0"
+  },
+  "devDependencies": {
+    "typescript": "^3.0.1"
+  }
+}
