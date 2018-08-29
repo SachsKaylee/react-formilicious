@@ -1,7 +1,7 @@
 import * as React from 'react';
 
-import Form from '../../../src';
-import TagList from '../../../src/fields/TagList';
+import Form from '@react-formilicious/core';
+import TagList from '@react-formilicious/fields-bulma/TagList';
 import DemoBaseForm from ".";
 
 class TagListForm extends DemoBaseForm {

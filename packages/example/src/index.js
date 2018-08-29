@@ -1,19 +1,19 @@
 // Basic Setup
 import * as React from 'react';
 import ReactDOM from 'react-dom';
-import Form from '../../src';
+import Form from '@react-formilicious/core';
 import "./index.css";
 /*import JSONEditor from "react-json-editor-ajrm";
 import en from 'react-json-editor-ajrm/locale/en';*/
 // Fields
-import TextField from '../../src/fields/TextField';
-import TextArea from '../../src/fields/TextArea';
-import Checkbox from '../../src/fields/Checkbox';
+import TextField from '@react-formilicious/fields-bulma/TextField';
+import TextArea from '@react-formilicious/fields-bulma/TextArea';
+import Checkbox from '@react-formilicious/fields-bulma/Checkbox';
 import ToggleField from './my-own-fields/ToggleField';
 // Validators
-import range from '../../src/validators/range';
-import required from '../../src/validators/required';
-import combined from '../../src/validators/combined';
+import range from '@react-formilicious/core/validators/range';
+import required from '@react-formilicious/core/validators/required';
+import combined from '@react-formilicious/core/validators/combined';
 import pwned from './my-own-validators/pwned';
 import checkForAvailableUsername from './my-own-validators/checkForAvailableUsername';
 

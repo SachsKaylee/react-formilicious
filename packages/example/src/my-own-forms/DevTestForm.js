@@ -1,10 +1,9 @@
 import * as React from 'react';
-
-import Form from '../../../src';
-import TextArea from '../../../src/fields/TextArea';
-import TextField from '../../../src/fields/TextField';
 import DemoBaseForm from '.';
-import { pass } from '../../../src/helpers/timeout';
+import Form from '@react-formilicious/core';
+import { pass } from '@react-formilicious/core/helpers/timeout';
+import TextArea from '@react-formilicious/fields-bulma/TextArea';
+import TextField from '@react-formilicious/fields-bulma/TextField';
 
 class DevTestForm extends DemoBaseForm {
   constructor() {

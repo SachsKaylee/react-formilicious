@@ -4,7 +4,7 @@ const glob = require('glob');
 
 async function readFileDependencyVersion(entry) {
   const depPath = entry.substring("file:../".length);
-  const packageJson = JSON.parse(await fse.readFile(path.resolve(__dirname, "../../", depPath, './package.json'), 'utf8'));
+  const packageJson = JSON.parse(await fse.readFile(path.resolve(__dirname, "../packages", depPath, './package.json'), 'utf8'));
   return "^" + packageJson.version;
 }
 

@@ -1,7 +1,7 @@
 {
-  "name": "@react-formilicious/core",
+  "name": "@react-formilicious/fields-bulma",
   "version": "1.0.0",
-  "description": "Easy to use, modular and simply delicious forms for React. 📝",
+  "description": "Fields for react-formilicious, using the Bulma CSS framework. 🎨",
   "author": "PatrickSachs",
   "license": "MIT",
   "main": "index.js",
@@ -33,10 +33,11 @@
     "build": "npm run build:commonjs && npm run build:es && npm run build:copy-files && npm run test",
     "build:commonjs": "cross-env NODE_ENV=production BABEL_ENV=modules:commonjs babel ./src --out-dir ./dist/ --ignore *.test.js",
     "build:es": "cross-env NODE_ENV=production BABEL_ENV=modules:es babel ./src --out-dir ./dist/es --ignore *.test.js",
-    "build:copy-files": "node ./scripts/copy-files.js",
+    "build:copy-files": "node ./../../scripts/copy-files.js",
     "release": "npm run build && npm publish ./dist"
   },
   "peerDependencies": {
+    "@react-formilicious/core": "file:../core/dist",
     "react": ">=16.2.0",
     "react-dom": ">=16.2.0"
   },
@@ -61,6 +62,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.0.0-rc.1",
+    "@react-formilicious/core": "file:../core/dist",
     "classnames": "^2.2.6"
   }
 }

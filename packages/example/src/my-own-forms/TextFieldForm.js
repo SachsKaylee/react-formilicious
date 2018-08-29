@@ -1,8 +1,7 @@
 import * as React from 'react';
-
-import Form from '../../../src';
-import TextField from '../../../src/fields/TextField';
 import DemoBaseForm from '.';
+import Form from '@react-formilicious/core';
+import TextField from '@react-formilicious/fields-bulma/TextField';
 
 class TextFieldForm extends DemoBaseForm {
   render() {

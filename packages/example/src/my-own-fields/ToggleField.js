@@ -1,5 +1,5 @@
 import * as React from "react";
-import ValidationResult from "../../../src/validators/ValidationResult";
+import ValidationResult from "@react-formilicious/core/validators/ValidationResult";
 
 export default class ToggleField extends React.Component {
   static getDefaultValue() {

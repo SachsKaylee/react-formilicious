@@ -7,8 +7,8 @@
     "build": "cross-env NODE_ENV=production BABEL_ENV=modules:commonjs webpack"
   },
   "dependencies": {
-    "@react-formilicious/core": "file:../core",
-    "@react-formilicious/fields-bulma": "file:../fields-bulma",
+    "@react-formilicious/core": "file:../core/dist",
+    "@react-formilicious/fields-bulma": "file:../fields-bulma/dist",
     "js-sha1": "^0.6.0",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",

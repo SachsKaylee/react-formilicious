@@ -1,6 +1,6 @@
 const path = require("path");
 const webpack = require("webpack");
-const package = require("./../package.json");
+const package = require("./package.json");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 const defines = {
