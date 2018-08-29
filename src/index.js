@@ -1,7 +1,7 @@
 import * as React from "react";
 import classNames from "classnames";
 import find from "./helpers/find";
-import makePromise, { thenCatch } from "./helpers/makePromise";
+import makePromise from "./helpers/makePromise";
 import { sanitizeValidationResult, sanitizeOnSubmitResult } from "./logic/validators/sanitization";
 import ValidationResult from "./validators/ValidationResult";
 import { mustResolveWithin } from "./helpers/timeout";
