@@ -19,7 +19,7 @@ react-formilicious intends to fix this issue by providing a simple, yet powerful
 
 * Simple - Supply a **plain JavaScript object** as the form, Formilicious takes care of the rest. No need to handle events, lifecycle, etc. yourself.
 * Extendible - Don't like a default field? Need a customized validator? The **entire library is modular**, you can **easily extend** Formilicious to your needs.
-* Asynchronous - A validator needs to contact your server in order to validate a field? No problem, Formilicious is **asynchronous by default**!
+* Asynchronous - A validator needs to contact your server in order to validate a field? Some data needs to be processed before a field can change its value? No problem, Formilicious is **asynchronous by default**!
 
 ## Getting started
 
