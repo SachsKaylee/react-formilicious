@@ -20,13 +20,13 @@ const range = ({ min, max }, locale = defaultLocale) => value => {
     };
     case "number": return {
       validated: numberInRange(min, max, value) ? "ok" : "error",
-      message: locale[localeStringKey("number", min, max)](min, max, value)
+      message: locale[localeKey("number", min, max)](min, max, value)
     };
     case "object": {
       const keyCount = Object.keys(value).length;
       return {
         validated: numberInRange(min, max, keyCount) ? "ok" : "error",
-        message: locale[localeStringKey("object", min, max)](min, max, keyCount)
+        message: locale[localeKey("object", min, max)](min, max, keyCount)
       };
     }
     default: {

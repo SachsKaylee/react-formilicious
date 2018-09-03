@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@react-formilicious/core": "file:../core/dist",
-    "@react-formilicious/fields-bulma": "file:../fields-bulma/dist",
+    "@react-formilicious/bulma": "file:../bulma/dist",
     "@react-formilicious/validator-pwned": "file:../validator-pwned/dist",
     "js-sha1": "^0.6.0",
     "react": "^16.4.2",

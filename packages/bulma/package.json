@@ -1,7 +1,7 @@
 {
-  "name": "@react-formilicious/fields-bulma",
+  "name": "@react-formilicious/bulma",
   "version": "1.0.0",
-  "description": "Fields for react-formilicious, using the Bulma CSS framework. 🎨",
+  "description": "react-formilicious for the Bulma CSS framework. 🎨",
   "author": "PatrickSachs",
   "license": "MIT",
   "main": "./src/index.js",
@@ -15,17 +15,22 @@
   },
   "peerDependencies": {
     "react": ">=16.2.0",
-    "react-dom": ">=16.2.0"
+    "react-dom": ">=16.2.0",
+    "@react-formilicious/core": "file:../core/dist"
   },
   "devDependencies": {
     "create-react-prototype": "file:..\\..\\..\\create-react-prototype",
+    "@react-formilicious/core": "file:../core/dist",
     "react": "^16.4.2",
     "react-dom": "^16.4.2"
   },
   "dependencies": {
     "@babel/runtime": "^7.0.0-rc.1",
-    "@react-formilicious/core": "file:../core/dist",
     "classnames": "^2.2.6"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PatrickSachs/react-formilicious.git"
   },
   "generator": "create-react-prototype"
 }

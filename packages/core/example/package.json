@@ -1,12 +1,12 @@
 {
-  "name": "@react-formilicious/validator-pwned-example",
+  "name": "@react-formilicious/core-example",
   "version": "1.0.0",
   "private": true,
   "dependencies": {
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
     "react-scripts": "2.0.0-next.a671462c",
-    "@react-formilicious/validator-pwned": "file:../dist"
+    "@react-formilicious/core": "file:../dist"
   },
   "scripts": {
     "start": "react-scripts start",

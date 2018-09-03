@@ -1,5 +1,4 @@
 import * as React from "react";
-import classNames from "classnames";
 import find from "./helpers/find";
 import makePromise from "./helpers/makePromise";
 import { sanitizeValidationResult, sanitizeOnSubmitResult } from "./logic/validators/sanitization";
@@ -8,6 +7,22 @@ import { mustResolveWithin } from "./helpers/timeout";
 import defaultButtons from "./defaultButtons";
 import { runValidator } from "./logic/validators/validation";
 import filterObject, { isNotUndefined } from "./helpers/filterObject";
+
+const renderButtonDefault = ({ key, name, action, type, waiting }) => {
+  return (<button key={key} disabled={waiting} style={{ margin: 2, border: "1px solid " + type }} onClick={action}>
+    {name}
+  </button>);
+}
+
+const renderFormDefault = ({ elements, buttons, validation }) => {
+  return (<form data-react-formilicious>
+    {elements}
+    <div>
+      {buttons}
+      {validation}
+    </div>
+  </form>);
+}
 
 export default class Form extends React.Component {
   constructor() {
@@ -187,10 +202,10 @@ export default class Form extends React.Component {
       // If at any point a promise gets rejected, count the validation as failed.
       console.error("Field error", error);
       if (this.fieldMustBeVersion(key, field.version, false)) {
-        error = sanitizeValidationResult(error, true);
+        const errorS = sanitizeValidationResult(error, true);
         await this.putFieldValue(key, {
-          validated: error.validated,
-          message: error.message,
+          validated: errorS.validated,
+          message: errorS.message,
           value: value
         });
       }
@@ -302,11 +317,11 @@ export default class Form extends React.Component {
 
   renderForm() {
     const { formValidationResult } = this.state;
-    return (<form data-react-formilicious>
-      {this.renderElements()}
-      {this.renderButtons()}
-      <ValidationResult {...formValidationResult} />
-    </form>);
+    return (this.props.renderForm || renderFormDefault)({
+      elements: this.renderElements(),
+      buttons: this.renderButtons(),
+      validation: <ValidationResult {...formValidationResult} />
+    });
   }
 
   renderButtons() {
@@ -322,10 +337,17 @@ export default class Form extends React.Component {
       default: actionFn = () => action(this.getFlatDataStructure()); break;
     }
     const isReady = this.isFormReady();
+    return (this.props.renderButton || renderButtonDefault)({
+      key,
+      name,
+      type,
+      action: actionFn,
+      waiting: !isReady
+    });
     // todo: make this rendering logic adjustable
-    return (<a key={key} disabled={!isReady} className={classNames("button", !isReady && " is-loading", type && "is-" + type)} style={{ margin: 2 }} onClick={actionFn}>
+    /*return (<a key={key} disabled={!isReady} className={classNames("button", !isReady && " is-loading", type && "is-" + type)} style={{ margin: 2 }} onClick={actionFn}>
       {name}
-    </a>);
+    </a>);*/
   }
 
   renderElements() {
