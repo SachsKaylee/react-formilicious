@@ -2,20 +2,22 @@
   "name": "@react-formilicious/validator-pwned",
   "version": "1.0.0",
   "description": "Have I Been Pwned? for react-formilicious 👊",
-  "main": "index.js",
+  "main": "./src/index.js",
   "scripts": {
-    "build": "tsc"
+    "build": "create-react-prototype build",
+    "watch": "create-react-prototype watch",
+    "test": "create-react-prototype test",
+    "release": "create-react-prototype release",
+    "pack": "create-react-prototype pack"
   },
-  "files": [
-    "index.js",
-    "index.d.ts"
-  ],
   "author": "Patrick Sachs",
   "license": "MIT",
   "dependencies": {
-    "js-sha1": "^0.6.0"
+    "js-sha1": "^0.6.0",
+    "@babel/runtime": "^7.0.0-rc.1"
   },
   "devDependencies": {
-    "typescript": "^3.0.1"
-  }
+    "create-react-prototype": "file:..\\..\\..\\create-react-prototype"
+  },
+  "generator": "create-react-prototype"
 }

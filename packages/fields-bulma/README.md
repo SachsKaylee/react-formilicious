@@ -1,78 +1,23 @@
-# react-formilicious
+# @react-formilicious/fields-bulma
 
-Easy to use, modular and simply delicious forms for React. 📝
+Fields for react-formilicious, using the Bulma CSS framework. 🎨
 
-* Demo: [https://patrick-sachs.de/content/react-formilicious/](https://patrick-sachs.de/content/react-formilicious/)
-* Changelog: [https://github.com/PatrickSachs/react-formilicious/blob/master/CHANGELOG.md](https://github.com/PatrickSachs/react-formilicious/blob/master/CHANGELOG.md)
-* Wiki: [https://github.com/PatrickSachs/react-formilicious/wiki](https://github.com/PatrickSachs/react-formilicious/wiki)
-* Install: `npm install react-formilicious`
+This is a great place to introduce your library. Go wild!
 
-## Motivation
+## Quick Start
 
-Form management in React has always been a pain point for me. Not due to the lack of expressiveness, but due to the need of manually having to set up every field with its own event handlers, creating a property for it in the state, and possibly adding quite the amount of case-by-case code if you need adjusted validation per field.
+Install `@react-formilicious/fields-bulma`:
 
-This is fine for one or two fields in an application. If you need dozens of fields, this can quickly become an unmaintainable mess.
-
-react-formilicious intends to fix this issue by providing a simple, yet powerful and extendible solution for both simple, aswell as complex and nested forms.
-
-## Feature spotlight
-
-* Simple - Supply a **plain JavaScript object** as the form, Formilicious takes care of the rest. No need to handle events, lifecycle, etc. yourself.
-* Extendible - Don't like a default field? Need a customized validator? The **entire library is modular**, you can **easily extend** Formilicious to your needs.
-* Asynchronous - A validator needs to contact your server in order to validate a field? Some data needs to be processed before a field can change its value? No problem, Formilicious is **asynchronous by default**!
-
-## Getting started
-
-```shell
-$ npm install react-formilicious
+```
+$ npm i @react-formilicious/fields-bulma
 ```
 
-```jsx
-import Form from 'react-formilicious';
-import TextField from 'react-formilicious/fields/TextField';
-import Checkbox from 'react-formilicious/fields/Checkbox';
-import combined from 'react-formilicious/validators/combined';
-import range from 'react-formilicious/validators/range';
-import required from 'react-formilicious/validators/required';
-import checkForAvailableUsername from './my-own-validators/checkForAvailableUsername';
+Import in your code:
 
-<Form
-  data={{
-    name: "Patrick Sachs"
-  }}
-  onSubmit={data => alert(JSON.stringify(data))}
-  elements={[
-    {
-      type: TextField,
-      key: "name",
-      name: "🙃 Username",
-      placeholder: "🙃 Enter your name here!",
-      validator: combined(
-        range({ min: 4, max: 16 }),
-        checkForAvailableUsername()
-      )
-    },
-    {
-      type: TextField,
-      key: "password",
-      name: "🔑 Password",
-      mode: "password",
-      placeholder: "🔑 Your super secret password here!",
-      validator: range({ min: 5 })
-    },
-    {
-      type: Checkbox,
-      key: "tos",
-      name: <span>📄 Accept the <a href="#/tos">TOS</a>?</span>,
-      validator: required()
-    }
-  ]} />
+```js
+import lib from "@react-formilicious/fields-bulma";
 ```
-
-![Demo Image](https://patrick-sachs.de/content/react-formilicious/demo.png?)
-
-See the [react-formilicious wiki](https://github.com/PatrickSachs/react-formilicious/wiki) for more information, guides & tutorials!
 
 ## License
 
-MIT - [https://github.com/PatrickSachs/react-formilicious/blob/master/LICENSE](https://github.com/PatrickSachs/react-formilicious/blob/master/LICENSE)
+This library is licensed under the MIT License. See the `LICENSE` file at the root of this source tree for more information.

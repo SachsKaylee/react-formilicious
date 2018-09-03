@@ -14,7 +14,7 @@ import ToggleField from './my-own-fields/ToggleField';
 import range from '@react-formilicious/core/validators/range';
 import required from '@react-formilicious/core/validators/required';
 import combined from '@react-formilicious/core/validators/combined';
-import pwned from './my-own-validators/pwned';
+import pwned from '@react-formilicious/validator-pwned';
 import checkForAvailableUsername from './my-own-validators/checkForAvailableUsername';
 
 const additionalForms = [
@@ -181,4 +181,4 @@ class App extends React.Component {
   }
 }
 
-ReactDOM.render(<div style={{ padding: 20 }}><App /></div>, document.querySelector('#app'));
+ReactDOM.render(<div style={{ padding: 20 }}><App /></div>, document.querySelector('#root'));

@@ -1,28 +1,31 @@
 {
-  "name": "@react-formilicious/example",
+  "name": "@react-formilicious/core-example",
   "version": "1.0.0",
-  "description": "",
-  "scripts": {
-    "start": "cross-env NODE_ENV=development webpack-dev-server",
-    "build": "cross-env NODE_ENV=production BABEL_ENV=modules:commonjs webpack"
-  },
+  "private": true,
   "dependencies": {
     "@react-formilicious/core": "file:../core/dist",
     "@react-formilicious/fields-bulma": "file:../fields-bulma/dist",
+    "@react-formilicious/validator-pwned": "file:../validator-pwned/dist",
     "js-sha1": "^0.6.0",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
-    "react-json-editor-ajrm": "^2.5.2"
+    "react-scripts": "2.0.0-next.a671462c"
   },
-  "devDependencies": {
-    "@babel/plugin-proposal-object-rest-spread": "^7.0.0-rc.1",
-    "babel-loader": "^8.0.0-beta.4",
-    "cross-env": "^5.2.0",
-    "css-loader": "^1.0.0",
-    "html-webpack-plugin": "^3.2.0",
-    "style-loader": "^0.21.0",
-    "webpack": "^4.16.5",
-    "webpack-cli": "^3.1.0",
-    "webpack-dev-server": "^3.1.5"
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "eject": "react-scripts eject"
+  },
+  "browserslist": {
+    "development": [
+      "last 2 chrome versions",
+      "last 2 firefox versions",
+      "last 2 edge versions"
+    ],
+    "production": [
+      ">0.25%",
+      "not op_mini all",
+      "ie 11"
+    ]
   }
 }
