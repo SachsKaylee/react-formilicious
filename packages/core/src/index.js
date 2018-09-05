@@ -344,10 +344,6 @@ export default class Form extends React.Component {
       action: actionFn,
       waiting: !isReady
     });
-    // todo: make this rendering logic adjustable
-    /*return (<a key={key} disabled={!isReady} className={classNames("button", !isReady && " is-loading", type && "is-" + type)} style={{ margin: 2 }} onClick={actionFn}>
-      {name}
-    </a>);*/
   }
 
   renderElements() {
