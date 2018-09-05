@@ -76,3 +76,9 @@ See the [react-formilicious wiki](https://github.com/PatrickSachs/react-formilic
 ## License
 
 MIT - [https://github.com/PatrickSachs/react-formilicious/blob/master/LICENSE](https://github.com/PatrickSachs/react-formilicious/blob/master/LICENSE)
+
+## Contributing
+
+Always welcome! 
+After cloning the repository make sure to run `bootstrap.cmd`(Windows only, feel free to open a PR with a SH file 😃) get you up and running.
+`watch-all.cmd` builds and watches all packages.
