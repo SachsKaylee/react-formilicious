@@ -4,7 +4,7 @@ import { action } from '@storybook/addon-actions';
 import Form from "@react-formilicious/core";
 import { DemoFieldString, DemoFieldNumber, DemoFieldArray } from './.config/demo-fields';
 import range from "@react-formilicious/core/validators/range";
-import options, { fnNameOnly } from './options';
+import options, { fnNameOnly } from './.config/options';
 
 storiesOf("Validator: range", module)
 

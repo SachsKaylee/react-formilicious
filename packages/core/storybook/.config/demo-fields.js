@@ -16,7 +16,7 @@ export class DemoFieldString extends React.Component {
     } = this.props;
 
     return (
-      <div style={{ margin: 2 }}>
+      <div style={{ margin: 8 }}>
         <label style={{ display: "block" }}>{name}</label>
         <input
           style={{ display: "block" }}
@@ -42,7 +42,7 @@ export class DemoFieldNumber extends React.Component {
     } = this.props;
 
     return (
-      <div style={{ margin: 2 }}>
+      <div style={{ margin: 8 }}>
         <label style={{ display: "block" }}>{name}</label>
         <input
           style={{ display: "block" }}
@@ -69,7 +69,7 @@ export class DemoFieldArray extends React.Component {
     } = this.props;
 
     return (
-      <div style={{ margin: 2 }}>
+      <div style={{ margin: 8 }}>
         <label style={{ display: "block" }}>{name}</label>
         <div style={{ display: "block" }}>
           <button disabled={waiting} onClick={e => {

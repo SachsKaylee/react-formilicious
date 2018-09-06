@@ -3,7 +3,7 @@ import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import Form from "@react-formilicious/core";
 import { DemoFieldString } from './.config/demo-fields';
-import options, { fnNameOnly, fnFullBody } from './options';
+import options, { fnNameOnly, fnFullBody } from './.config/options';
 
 storiesOf("Buttons", module)
 
