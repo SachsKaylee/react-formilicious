@@ -3,14 +3,16 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
+    "@react-formilicious/bulma": "file:../dist",
+    "@react-formilicious/core": "file:../../core/dist",
     "@storybook/react": "^3.4.10",
     "babel-core": "^6.26.3",
-    "@react-formilicious/core": "file:../../core/dist",
-    "@react-formilicious/bulma": "file:../dist",
     "react": "^16.2.0",
-    "react-dom": "^16.2.0"
+    "react-dom": "^16.2.0",
+    "storybook-addon-jsx": "^5.4.0"
   },
   "scripts": {
-    "start": "start-storybook -p 9001 -c config"
+    "start": "start-storybook -p 9002 -c .config",
+    "build": "build-storybook -c .config -o dist"
   }
 }

@@ -80,5 +80,5 @@ MIT - [https://github.com/PatrickSachs/react-formilicious/blob/master/LICENSE](h
 ## Contributing
 
 Always welcome! 
-After cloning the repository make sure to run `bootstrap.cmd`(Windows only, feel free to open a PR with a SH file 😃) get you up and running.
+After cloning the repository make sure to run `bootstrap.cmd`(Windows only, feel free to open a PR with a SH file 😃) to get you up and running.
 `watch-all.cmd` builds and watches all packages.

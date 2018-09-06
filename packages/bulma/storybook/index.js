@@ -1,16 +1,15 @@
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
+import Form from "@react-formilicious/bulma";
 import { action } from '@storybook/addon-actions';
-import Form from "@react-formilicious/core";
-
-// The Storybook allows you to create individual demos for your components.
-
-// Please keep in mind that Storybook support is highly experimental and *will* 
-// undergo drastic change in future versions.
-
-// https://storybook.js.org/basics/guide-react/
+import options from './options';
 
 storiesOf("Basic Form", module)
-  .add("Empty Form", () => (
+  .addWithJSX("Empty Form", () => (
     <Form elements={[]} data={{}} onSubmit={action("onSubmit")} />
-  ));   
+  ), options);
+
+require("./Checkbox");
+require("./TagList");
+require("./TextArea");
+require("./TextField");
