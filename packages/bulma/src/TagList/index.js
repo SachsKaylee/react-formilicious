@@ -55,7 +55,7 @@ export default class TagList extends React.Component {
     return {
       ...initialvaluesLookup,
       ...valuesLookup,
-      ...(tags ? (Array.isArray(tags) ? tags.reduce((acc, v) => ({ ...acc, [v]: v }), {}) : tags) : {})
+      ...(tags ? (Array.isArray(tags) ? tags.reduce((acc, v) => ({ ...acc, [getTagId(v)]: getTagName(v) }), {}) : tags) : {})
     };
   }
 
@@ -66,10 +66,6 @@ export default class TagList extends React.Component {
     this.setState({
       typingTag: ""
     }, () => value.indexOf(typingTag) === -1 && this.enableTag(typingTag));
-  }
-
-  getTagId(tag) {
-    return typeof tag === "string" ? tag : tag.id ? tag.id : typeof tag.name === "string" ? tag.name : JSON.stringify(tag.name);
   }
 
   renderTag(tag, lookup) {
@@ -101,3 +97,4 @@ export default class TagList extends React.Component {
 }
 
 const getTagId = tag => typeof tag === "string" ? tag : tag.id ? tag.id : typeof tag.name === "string" ? tag.name : JSON.stringify(tag.name);
+const getTagName = tag => typeof tag === "string" ? tag : tag.name ? tag.name : tag.id;
