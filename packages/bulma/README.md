@@ -1,21 +1,35 @@
-# @react-formilicious/fields-bulma
+# @react-formilicious/bulma
 
 Fields for react-formilicious, using the Bulma CSS framework. 🎨
 
-This is a great place to introduce your library. Go wild!
+See the storybook for documentation and all available components here: https://patrick-sachs.de/content/react-formilicious/bulma/
 
 ## Quick Start
 
-Install `@react-formilicious/fields-bulma`:
+Install `@react-formilicious/bulma`:
 
 ```
-$ npm i @react-formilicious/fields-bulma
+$ npm i @react-formilicious/bulma
 ```
 
 Import in your code:
 
 ```js
-import lib from "@react-formilicious/fields-bulma";
+// Make sure to use the Form provided by this library instead of the one by core!
+import Form from "@react-formilicious/bulma";
+import TagList from "@react-formilicious/bulma/TagList";
+
+<Form
+  data={{}}
+  elements={[
+    {
+      key: 'tagList',
+      name: 'TagList',
+      type: TagList
+    }
+  ]}
+  onSubmit={() => { /* ... */ }}
+/>
 ```
 
 ## License

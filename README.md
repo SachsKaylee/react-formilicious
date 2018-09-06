@@ -1,11 +1,12 @@
-# react-formilicious
+# @react-formilicious/core
 
 Easy to use, modular and simply delicious forms for React. 📝
 
-* Demo: [https://patrick-sachs.de/content/react-formilicious/](https://patrick-sachs.de/content/react-formilicious/)
-* Changelog: [https://github.com/PatrickSachs/react-formilicious/blob/master/CHANGELOG.md](https://github.com/PatrickSachs/react-formilicious/blob/master/CHANGELOG.md)
-* Wiki: [https://github.com/PatrickSachs/react-formilicious/wiki](https://github.com/PatrickSachs/react-formilicious/wiki)
-* Install: `npm install react-formilicious`
+* Demo: https://patrick-sachs.de/content/react-formilicious/
+* Changelog: https://github.com/PatrickSachs/react-formilicious/blob/master/CHANGELOG.md
+* Wiki: https://github.com/PatrickSachs/react-formilicious/wiki
+* Storybook: https://patrick-sachs.de/content/react-formilicious/bulma/
+* Install: `npm install @react-formilicious/core`
 
 ## Motivation
 
@@ -23,17 +24,20 @@ react-formilicious intends to fix this issue by providing a simple, yet powerful
 
 ## Getting started
 
+The core library does not include any fields since they are styling specific. In this quick guide we will be using the Bulma fields. Feel free to check if fields for your favourite framework are avilable under https://github.com/PatrickSachs/react-formilicious/tree/master/packages.
+
 ```shell
-$ npm install react-formilicious
+$ npm install @react-formilicious/core
+$ npm install @react-formilicious/bulma
 ```
 
 ```jsx
-import Form from 'react-formilicious';
-import TextField from 'react-formilicious/fields/TextField';
-import Checkbox from 'react-formilicious/fields/Checkbox';
-import combined from 'react-formilicious/validators/combined';
-import range from 'react-formilicious/validators/range';
-import required from 'react-formilicious/validators/required';
+import Form from '@react-formilicious/core';
+import combined from '@react-formilicious/core/validators/combined';
+import range from '@react-formilicious/core/validators/range';
+import required from '@react-formilicious/core/validators/required';
+import TextField from '@react-formilicious/bulma/TextField';
+import Checkbox from '@react-formilicious/bulma/Checkbox';
 import checkForAvailableUsername from './my-own-validators/checkForAvailableUsername';
 
 <Form
@@ -71,11 +75,11 @@ import checkForAvailableUsername from './my-own-validators/checkForAvailableUser
 
 ![Demo Image](https://patrick-sachs.de/content/react-formilicious/demo.png?)
 
-See the [react-formilicious wiki](https://github.com/PatrickSachs/react-formilicious/wiki) for more information, guides & tutorials!
+See the [react-formilicious wiki](https://github.com/PatrickSachs/react-formilicious/wiki) and/or the Storybook or the [core](https://patrick-sachs.de/content/react-formilicious/core) and [bulma](https://patrick-sachs.de/content/react-formilicious/bulma) library for more information, guides & tutorials!
 
 ## License
 
-MIT - [https://github.com/PatrickSachs/react-formilicious/blob/master/LICENSE](https://github.com/PatrickSachs/react-formilicious/blob/master/LICENSE)
+MIT - https://github.com/PatrickSachs/react-formilicious/blob/master/packages/core/LICENSE
 
 ## Contributing
 
