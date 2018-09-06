@@ -76,6 +76,3 @@ storiesOf("Validator: range", module)
       }
     ]} data={{}} onSubmit={action("onSubmit")} />
   ), options)
-
-require("./buttons");
-require("./validator-range");

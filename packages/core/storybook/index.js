@@ -9,7 +9,7 @@ storiesOf("Introduction", module)
 
   .addWithJSX("Welcome", () => (
     <div style={{ display: "flex", flexFlow: "column", height: "100%" }}>
-      <div style={{ flex: "0 1 auto" }}>
+      <div style={{ flex: "0 1 auto", fontFamily: "sans-serif" }}>
         This is the storybook for the <strong>core library of react-formilicious</strong>.<br />
         As the core library does not contain any fields at all this storybook does not have any "flashy" content in it.
         If you want to get a first impression of what this library can do, either look at the embedded example below or
@@ -46,3 +46,4 @@ storiesOf("Introduction", module)
 
 require("./buttons");
 require("./validator-range");
+require("./validator-required");
