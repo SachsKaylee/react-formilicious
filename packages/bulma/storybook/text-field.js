@@ -3,7 +3,7 @@ import { storiesOf } from '@storybook/react';
 import Form from "@react-formilicious/bulma";
 import TextField from "@react-formilicious/bulma/TextField";
 import { action } from '@storybook/addon-actions';
-import options, { nameOnly } from '../options';
+import options, { fnNameOnly } from './.config/options';
 
 storiesOf("TextField", module)
 
@@ -11,7 +11,7 @@ storiesOf("TextField", module)
     <Form elements={[
       {
         key: "textField",
-        type: nameOnly(TextField),
+        type: fnNameOnly(TextField),
         name: "TextField"
       }
     ]} data={{}} onSubmit={action("onSubmit")} />
@@ -21,7 +21,7 @@ storiesOf("TextField", module)
     <Form elements={[
       {
         key: "textField",
-        type: nameOnly(TextField),
+        type: fnNameOnly(TextField),
         name: "TextField",
         placeholder: "Type your text here"
       }
@@ -34,14 +34,14 @@ storiesOf("TextField", module)
       <hr />
       <Form elements={[{
         key: "number-with-step",
-        type: nameOnly(TextField),
+        type: fnNameOnly(TextField),
         mode: "number",
         step: 3,
         name: "Mode: number (with step of 3)"
       }, ...["number", "text", "password", "color", "date", "time", "datetime", "week", "email", "month", "tel", "url", "hidden"].map(mode =>
         ({
           key: mode,
-          type: nameOnly(TextField),
+          type: fnNameOnly(TextField),
           mode: mode,
           name: "Mode: " + mode
         })

@@ -3,7 +3,7 @@ import { storiesOf } from '@storybook/react';
 import Form from "@react-formilicious/bulma";
 import TagList from "@react-formilicious/bulma/TagList";
 import { action } from '@storybook/addon-actions';
-import options, { nameOnly } from '../options';
+import options, { fnNameOnly } from './.config/options';
 
 storiesOf("TagList", module)
 
@@ -11,7 +11,7 @@ storiesOf("TagList", module)
     <Form elements={[
       {
         key: "tagList",
-        type: nameOnly(TagList),
+        type: fnNameOnly(TagList),
         name: "TagList"
       }
     ]} data={{}} onSubmit={action("onSubmit")} />
@@ -21,7 +21,7 @@ storiesOf("TagList", module)
     <Form elements={[
       {
         key: "tagList",
-        type: nameOnly(TagList),
+        type: fnNameOnly(TagList),
         name: "TagList",
         tags: ["tag-1", "tag-2", "tag-3"]
       }
@@ -32,7 +32,7 @@ storiesOf("TagList", module)
     <Form elements={[
       {
         key: "tagList",
-        type: nameOnly(TagList),
+        type: fnNameOnly(TagList),
         name: "TagList",
         tags: ["tag-1", "tag-2", "tag-3"],
         allowCustomTags: false
@@ -44,7 +44,7 @@ storiesOf("TagList", module)
     <Form elements={[
       {
         key: "tagList",
-        type: nameOnly(TagList),
+        type: fnNameOnly(TagList),
         name: "TagList",
         tags: [
           { id: "tag-1", name: "My first tag" },

@@ -9,7 +9,7 @@ import TextField from "@react-formilicious/bulma/TextField";
 import TextArea from "@react-formilicious/bulma/TextArea";
 import ToggleField from "@react-formilicious/bulma/ToggleField";
 import Checkbox from "@react-formilicious/bulma/Checkbox";
-import options, { fnNameOnly } from './options';
+import options, { fnNameOnly } from './.config/options';
 
 storiesOf("Basic Form", module)
 
@@ -63,7 +63,8 @@ storiesOf("Basic Form", module)
     <Form elements={[]} data={{}} onSubmit={action("onSubmit")} />
   ), options)
 
-require("./Checkbox");
-require("./TagList");
-require("./TextArea");
-require("./TextField");
+require("./checkbox");
+require("./tag-list");
+require("./text-area");
+require("./text-field");
+require("./toggle-field");

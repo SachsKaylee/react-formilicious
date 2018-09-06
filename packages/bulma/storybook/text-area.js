@@ -3,7 +3,7 @@ import { storiesOf } from '@storybook/react';
 import Form from "@react-formilicious/bulma";
 import TextArea from "@react-formilicious/bulma/TextArea";
 import { action } from '@storybook/addon-actions';
-import options, { nameOnly } from '../options';
+import options, { fnNameOnly } from './.config/options';
 
 storiesOf("TextArea", module)
 
@@ -11,7 +11,7 @@ storiesOf("TextArea", module)
     <Form elements={[
       {
         key: "textArea",
-        type: nameOnly(TextArea),
+        type: fnNameOnly(TextArea),
         name: "TextArea"
       }
     ]} data={{}} onSubmit={action("onSubmit")} />
@@ -21,7 +21,7 @@ storiesOf("TextArea", module)
     <Form elements={[
       {
         key: "textArea",
-        type: nameOnly(TextArea),
+        type: fnNameOnly(TextArea),
         name: "TextArea",
         placeholder: "Type your text here"
       }
@@ -32,7 +32,7 @@ storiesOf("TextArea", module)
     <Form elements={[
       {
         key: "textArea",
-        type: nameOnly(TextArea),
+        type: fnNameOnly(TextArea),
         name: "TextArea",
         lines: 2
       }
