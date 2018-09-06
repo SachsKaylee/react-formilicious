@@ -24,7 +24,7 @@ react-formilicious intends to fix this issue by providing a simple, yet powerful
 
 ## Getting started
 
-The core library does not include any fields since they are styling specific. In this quick guide we will be using the Bulma fields. Feel free to check if fields for your favourite framework are avilable under https://github.com/PatrickSachs/react-formilicious/tree/master/packages.
+The core library does not include any fields since they are styling specific. In this quick guide we will be using the Bulma fields. Feel free to check if fields for your favourite framework are available under https://github.com/PatrickSachs/react-formilicious/tree/master/packages.
 
 ```shell
 $ npm install @react-formilicious/core
