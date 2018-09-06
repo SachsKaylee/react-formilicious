@@ -334,7 +334,7 @@ export default class Form extends React.Component {
     switch (action) {
       case "submit": actionFn = this.onSubmitButtonClick; break;
       case "reset": actionFn = this.onResetButtonClick; break;
-      default: actionFn = () => action(this.getFlatDataStructure()); break;
+      default: actionFn = event => action(this.getFlatDataStructure(), event); break;
     }
     const isReady = this.isFormReady();
     return (this.props.renderButton || renderButtonDefault)({
