@@ -2,7 +2,7 @@ import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import Form from "@react-formilicious/core";
-import DemoField from './DemoField';
+import { DemoFieldString } from './.config/demo-fields';
 import options, { fnNameOnly, fnFullBody } from './options';
 
 storiesOf("Buttons", module)
@@ -12,7 +12,7 @@ storiesOf("Buttons", module)
       elements={[
         {
           key: "test",
-          type: fnNameOnly(DemoField),
+          type: fnNameOnly(DemoFieldString),
           name: "The 'type' prop of the buttons may have different valid values for different CSS frameworks"
         }
       ]}
