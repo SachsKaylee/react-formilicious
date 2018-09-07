@@ -10,11 +10,16 @@ storiesOf("Introduction", module)
   .addWithJSX("Welcome", () => (
     <div style={{ display: "flex", flexFlow: "column", height: "100%" }}>
       <div style={{ flex: "0 1 auto", fontFamily: "sans-serif" }}>
-        This is the storybook for the <strong>core library of react-formilicious</strong>.<br />
+        This is the storybook for the <strong>core library of react-formilicious</strong>.
+        <br />
         As the core library does not contain any fields at all this storybook does not have any "flashy" content in it.
         If you want to get a first impression of what this library can do, either look at the embedded example below or
         switch over to the <a href="https://patrick-sachs.de/content/react-formilicious/bulma" target="_top">storybook of
         the bulma</a> implementation.
+        <br />
+        Please make sure to also always read the source code of the storybook as some things can not always be displayed in
+        the "JSX" panel below(indicated by a function called "noRefCheck"). You can find the source code <a href={"https://"
+          + "github.com/PatrickSachs/react-formilicious/tree/master/packages"} target="_top">on GitHub</a>.
       </div>
       <iframe src="https://patrick-sachs.de/content/react-formilicious/" style={{ flex: "1 1 auto", border: 0 }}></iframe>
     </div>

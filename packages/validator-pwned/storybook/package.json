@@ -13,6 +13,6 @@
   },
   "scripts": {
     "start": "start-storybook -p 9003 -c .config",
-    "build": "build-storybook -c .config -o dist"
+    "build": "build-storybook -c .config -o ../../../docs/validator-pwned"
   }
 }
