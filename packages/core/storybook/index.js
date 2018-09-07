@@ -45,5 +45,6 @@ storiesOf("Introduction", module)
   ), options)
 
 require("./buttons");
+require("./validator-combined");
 require("./validator-range");
 require("./validator-required");

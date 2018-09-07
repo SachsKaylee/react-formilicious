@@ -2,7 +2,10 @@ import { sanitizeValidationResult } from "../logic/validators/sanitization";
 import makePromise from "../helpers/makePromise";
 
 const combined = (...all) => {
-  all = all.length === 1 && Array.isArray(all[0]) ? all[0] : all;
+  all = all && all.length === 1 && Array.isArray(all[0]) ? all[0] : all;
+  if (!all || all.length === 0) {
+    return () => Promise.resolve({ validated: "ok", message: null });
+  }
   return (...args) => {
     return new Promise((resolve, reject) => {
       let resolved = 0;
