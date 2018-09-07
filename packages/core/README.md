@@ -5,7 +5,7 @@ Easy to use, modular and simply delicious forms for React. 📝
 * Demo: https://patrick-sachs.de/content/react-formilicious/
 * Changelog: https://github.com/PatrickSachs/react-formilicious/blob/master/CHANGELOG.md
 * Wiki: https://github.com/PatrickSachs/react-formilicious/wiki
-* Storybook: https://patrick-sachs.de/content/react-formilicious/core/ (https://patrick-sachs.de/content/react-formilicious/bulma/ for something visual)
+* Storybook: https://patricksachs.github.io/react-formilicious/core/ (https://patricksachs.github.io/react-formilicious/bulma/ for something visual)
 * Install: `npm install @react-formilicious/core`
 
 ## Motivation
