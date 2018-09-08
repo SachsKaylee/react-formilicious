@@ -19,8 +19,8 @@
     "@react-formilicious/core": "file:../core/dist"
   },
   "devDependencies": {
-    "create-react-prototype": "file:..\\..\\..\\create-react-prototype",
     "@react-formilicious/core": "file:../core/dist",
+    "create-react-prototype": "^1.0.1",
     "react": "^16.4.2",
     "react-dom": "^16.4.2"
   },

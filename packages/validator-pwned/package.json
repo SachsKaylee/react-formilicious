@@ -17,7 +17,7 @@
     "@babel/runtime": "^7.0.0-rc.1"
   },
   "devDependencies": {
-    "create-react-prototype": "file:..\\..\\..\\create-react-prototype"
+    "create-react-prototype": "^1.0.1"
   },
   "generator": "create-react-prototype"
 }
