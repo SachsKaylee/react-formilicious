@@ -14,13 +14,13 @@
     "pack": "create-react-prototype pack"
   },
   "peerDependencies": {
+    "@react-formilicious/core": "^1.0.0",
     "react": ">=16.2.0",
-    "react-dom": ">=16.2.0",
-    "@react-formilicious/core": "file:../core/dist"
+    "react-dom": ">=16.2.0"
   },
   "devDependencies": {
-    "@react-formilicious/core": "file:../core/dist",
-    "create-react-prototype": "^1.0.1",
+    "@react-formilicious/core": "link:../core/dist",
+    "create-react-prototype": "1.1.0",
     "react": "^16.4.2",
     "react-dom": "^16.4.2"
   },

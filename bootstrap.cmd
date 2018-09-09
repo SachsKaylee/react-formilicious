@@ -1,28 +1,28 @@
 cd packages
 
 cd core
-call npm i
-call npm run build
+call yarn
+call yarn build
 cd storybook
-call npm i
+call yarn
 cd ..
 cd ..
 
 cd bulma
-call npm i
+call yarn
 call npm run build
 cd storybook
-call npm i
+call yarn
 cd ..
 cd ..
 
 cd validator-pwned
-call npm i
-call npm run build
+call yarn
+call yarn build
 cd ..
 
 cd example
-call npm i
+call yarn
 cd ..
 
 cd ..
