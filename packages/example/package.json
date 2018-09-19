@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
-    "@react-formilicious/core": "file:../core/dist",
-    "@react-formilicious/bulma": "file:../bulma/dist",
-    "@react-formilicious/validator-pwned": "file:../validator-pwned/dist",
+    "@react-formilicious/core": "link:../core/dist",
+    "@react-formilicious/bulma": "link:../bulma/dist",
+    "@react-formilicious/validator-pwned": "link:../validator-pwned/dist",
     "js-sha1": "^0.6.0",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",

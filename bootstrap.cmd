@@ -19,6 +19,9 @@ cd ..
 cd validator-pwned
 call yarn
 call yarn build
+cd storybook
+call yarn
+cd ..
 cd ..
 
 cd example

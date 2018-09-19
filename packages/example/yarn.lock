@@ -1289,24 +1289,17 @@
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/@nodelib/fs.stat/-/fs.stat-1.1.2.tgz#54c5a964462be3d4d78af631363c18d6fa91ac26"
 
-"@react-formilicious/bulma@file:../bulma/dist":
-  version "1.0.0"
-  dependencies:
-    "@babel/runtime" "^7.0.0-rc.1"
-    classnames "^2.2.6"
-    react-frame-component "^4.0.1"
+"@react-formilicious/bulma@link:../bulma/dist":
+  version "0.0.0"
+  uid ""
 
-"@react-formilicious/core@file:../core/dist":
-  version "1.0.0"
-  dependencies:
-    "@babel/runtime" "^7.0.0-rc.1"
-    classnames "^2.2.6"
+"@react-formilicious/core@link:../core/dist":
+  version "0.0.0"
+  uid ""
 
-"@react-formilicious/validator-pwned@file:../validator-pwned/dist":
-  version "1.0.0"
-  dependencies:
-    "@babel/runtime" "^7.0.0-rc.1"
-    js-sha1 "^0.6.0"
+"@react-formilicious/validator-pwned@link:../validator-pwned/dist":
+  version "0.0.0"
+  uid ""
 
 "@webassemblyjs/ast@1.4.3":
   version "1.4.3"
