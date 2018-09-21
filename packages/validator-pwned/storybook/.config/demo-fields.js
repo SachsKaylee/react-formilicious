@@ -1,5 +1,6 @@
 import * as React from "react";
 import ValidationResult from "@react-formilicious/core/validators/ValidationResult";
+import { Input } from "@react-formilicious/core/inputs";
 
 export class DemoFieldPassword extends React.Component {
   static getDefaultValue() {
@@ -17,7 +18,7 @@ export class DemoFieldPassword extends React.Component {
     return (
       <div style={{ margin: 8 }}>
         <label style={{ display: "block" }}>{name}</label>
-        <input
+        <Input
           style={{ display: "block" }}
           type={"password"}
           onChange={e => onChange(e.target.value)}

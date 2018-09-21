@@ -1,6 +1,7 @@
 import * as React from "react";
 import lorem from "lorem-ipsum";
 import ValidationResult from "@react-formilicious/core/validators/ValidationResult";
+import { Input } from "@react-formilicious/core/inputs";
 
 export class DemoFieldString extends React.Component {
   static getDefaultValue() {
@@ -18,7 +19,7 @@ export class DemoFieldString extends React.Component {
     return (
       <div style={{ margin: 8 }}>
         <label style={{ display: "block" }}>{name}</label>
-        <input
+        <Input
           style={{ display: "block" }}
           onChange={e => onChange(e.target.value)}
           disabled={waiting}
@@ -44,7 +45,7 @@ export class DemoFieldNumber extends React.Component {
     return (
       <div style={{ margin: 8 }}>
         <label style={{ display: "block" }}>{name}</label>
-        <input
+        <Input
           style={{ display: "block" }}
           type="number"
           onChange={e => onChange(parseFloat(e.target.value))}
