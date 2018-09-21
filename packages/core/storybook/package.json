@@ -13,6 +13,6 @@
   },
   "scripts": {
     "start": "start-storybook -p 9001 -c .config",
-    "build": "build-storybook -c .config -o ../../../docs/core"
+    "build": "rm -rf ../../../docs/core && build-storybook -c .config -o ../../../docs/core"
   }
 }

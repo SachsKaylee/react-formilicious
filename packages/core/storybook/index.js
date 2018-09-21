@@ -5,6 +5,17 @@ import Form from "@react-formilicious/core";
 import { DemoFieldString, DemoFieldNumber, DemoFieldArray } from './.config/demo-fields';
 import options, { fnNameOnly } from './.config/options';
 
+let frameSrc, bulmaHref, sourceHref;
+if (location.hostname === "localhost") {
+  frameSrc = "http://localhost:3000/";
+  bulmaHref = "http://localhost:9002/";
+  sourceHref = "https://github.com/PatrickSachs/react-formilicious/tree/master/packages";
+} else {
+  frameSrc = "https://patricksachs.github.io/react-formilicious/build/";
+  bulmaHref = "https://patricksachs.github.io/react-formilicious/bulma/";
+  sourceHref = "https://github.com/PatrickSachs/react-formilicious/tree/master/packages";
+}
+
 storiesOf("Introduction", module)
 
   .addWithJSX("Welcome", () => (
@@ -14,14 +25,14 @@ storiesOf("Introduction", module)
         <br />
         As the core library does not contain any fields at all this storybook does not have any "flashy" content in it.
         If you want to get a first impression of what this library can do, either look at the embedded example below or
-        switch over to the <a href="https://patrick-sachs.de/content/react-formilicious/bulma" target="_top">storybook of
+        switch over to the <a href={bulmaHref} target="_top">storybook of
         the bulma</a> implementation.
         <br />
         Please make sure to also always read the source code of the storybook as some things can not always be displayed in
-        the "JSX" panel below(indicated by a function called "noRefCheck"). You can find the source code <a href={"https://"
-          + "github.com/PatrickSachs/react-formilicious/tree/master/packages"} target="_top">on GitHub</a>.
+        the "JSX" panel below(indicated by a function called "noRefCheck"). You can find the source code <a href={sourceHref}
+          target="_top">on GitHub</a>.
       </div>
-      <iframe src="https://patrick-sachs.de/content/react-formilicious/" style={{ flex: "1 1 auto", border: 0 }}></iframe>
+      <iframe src={frameSrc} style={{ flex: "1 1 auto", border: 0 }}></iframe>
     </div>
   ))
 

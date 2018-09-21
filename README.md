@@ -2,10 +2,10 @@
 
 Easy to use, modular and simply delicious forms for React. 📝
 
-* Demo: https://patrick-sachs.de/content/react-formilicious/
+* Demo: https://patricksachs.github.io/react-formilicious/build
 * Changelog: https://github.com/PatrickSachs/react-formilicious/blob/master/CHANGELOG.md
 * Wiki: https://github.com/PatrickSachs/react-formilicious/wiki
-* Storybook: https://patricksachs.github.io/react-formilicious/core/ (https://patricksachs.github.io/react-formilicious/bulma/ for something visual)
+* Storybook: https://patricksachs.github.io/react-formilicious/core (https://patricksachs.github.io/react-formilicious/bulma for something visual)
 * Install: `npm install @react-formilicious/core`
 
 ## Motivation
@@ -75,7 +75,7 @@ import checkForAvailableUsername from './my-own-validators/checkForAvailableUser
 
 ![Demo Image](https://patrick-sachs.de/content/react-formilicious/demo.png?)
 
-See the [react-formilicious wiki](https://github.com/PatrickSachs/react-formilicious/wiki) and/or the Storybook or the [core](https://patrick-sachs.de/content/react-formilicious/core) and [bulma](https://patrick-sachs.de/content/react-formilicious/bulma) library for more information, guides & tutorials!
+See the [react-formilicious wiki](https://github.com/PatrickSachs/react-formilicious/wiki) and/or the Storybook or the [core](https://patricksachs.github.io/react-formilicious/core) and [bulma](https://patricksachs.github.io/react-formilicious/bulma) library for more information, guides & tutorials!
 
 ## License
 

@@ -2,7 +2,7 @@
 
 Fields for react-formilicious, using the Bulma CSS framework. 🎨
 
-See the storybook for documentation and all available components here: https://patrick-sachs.de/content/react-formilicious/bulma/
+See the storybook for documentation and all available components here: https://patricksachs.github.io/react-formilicious/bulma/
 
 ## Quick Start
 

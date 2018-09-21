@@ -2,7 +2,7 @@
 
 A field validator for [https://github.com/PatrickSachs/react-formilicious/](react-formilicious) based on the [https://haveibeenpwned.com/](haveibeenpwned.com) database.
 
-See the storybook for documentation and all available components here: https://patrick-sachs.de/content/react-formilicious/validator-pwned/
+See the storybook for documentation and all available components here: https://patricksachs.github.io/react-formilicious/validator-pwned/
 
 ```jsx
 import pwned from "@react-formilicious/validator-pwned";
