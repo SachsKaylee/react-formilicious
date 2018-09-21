@@ -17,6 +17,7 @@
     "build": "react-scripts build && rm -rf ../../docs/build && mv build ../../docs",
     "eject": "react-scripts eject"
   },
+  "homepage": "https://patricksachs.github.io/react-formilicious/build/",
   "browserslist": {
     "development": [
       "last 2 chrome versions",
