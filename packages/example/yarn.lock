@@ -1178,7 +1178,7 @@
     core-js "^2.5.3"
     regenerator-runtime "^0.11.1"
 
-"@babel/runtime@^7.0.0-rc.1":
+"@babel/runtime@^7.0.0-rc.0", "@babel/runtime@^7.0.0-rc.1":
   version "7.0.0"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.0.0.tgz#adeb78fedfc855aa05bc041640f3f6f98e85424c"
   dependencies:
@@ -7030,6 +7030,12 @@ react-error-overlay@5.0.0-next.a671462c:
 react-frame-component@^4.0.1:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/react-frame-component/-/react-frame-component-4.0.1.tgz#347836da33bb7eea2b173913200aa99509edfc3b"
+
+react-json-editor-ajrm@^2.5.5:
+  version "2.5.5"
+  resolved "https://registry.yarnpkg.com/react-json-editor-ajrm/-/react-json-editor-ajrm-2.5.5.tgz#6967b276b82e779dd1cc55a67ae00e69b499ef51"
+  dependencies:
+    "@babel/runtime" "^7.0.0-rc.0"
 
 react-scripts@2.0.0-next.a671462c:
   version "2.0.0-next.a671462c"

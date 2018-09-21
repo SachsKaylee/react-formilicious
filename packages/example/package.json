@@ -3,17 +3,18 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
-    "@react-formilicious/core": "link:../core/dist",
     "@react-formilicious/bulma": "link:../bulma/dist",
+    "@react-formilicious/core": "link:../core/dist",
     "@react-formilicious/validator-pwned": "link:../validator-pwned/dist",
     "js-sha1": "^0.6.0",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
+    "react-json-editor-ajrm": "^2.5.5",
     "react-scripts": "2.0.0-next.a671462c"
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts build && rm -rf ../../docs/build && mv build ../../docs",
     "eject": "react-scripts eject"
   },
   "browserslist": {

@@ -1,15 +1,15 @@
 // Basic Setup
 import * as React from 'react';
 import ReactDOM from 'react-dom';
-import Form from '@react-formilicious/core';
+import JSONEditor from "react-json-editor-ajrm/index";
+import en from 'react-json-editor-ajrm/locale/en';
+import Form from '@react-formilicious/bulma';
 import "./index.css";
-/*import JSONEditor from "react-json-editor-ajrm";
-import en from 'react-json-editor-ajrm/locale/en';*/
 // Fields
-import TextField from '@react-formilicious/fields-bulma/TextField';
-import TextArea from '@react-formilicious/fields-bulma/TextArea';
-import Checkbox from '@react-formilicious/fields-bulma/Checkbox';
-import ToggleField from './my-own-fields/ToggleField';
+import TextField from '@react-formilicious/bulma/TextField';
+import TextArea from '@react-formilicious/bulma/TextArea';
+import Checkbox from '@react-formilicious/bulma/Checkbox';
+import ToggleField from '@react-formilicious/bulma/ToggleField';
 // Validators
 import range from '@react-formilicious/core/validators/range';
 import required from '@react-formilicious/core/validators/required';
@@ -18,9 +18,6 @@ import pwned from '@react-formilicious/validator-pwned';
 import checkForAvailableUsername from './my-own-validators/checkForAvailableUsername';
 
 const additionalForms = [
-  require("./my-own-forms/DevTestForm"),
-  require("./my-own-forms/TextFieldForm"),
-  require("./my-own-forms/TagListForm"),
 ];
 
 class App extends React.Component {
@@ -95,7 +92,9 @@ class App extends React.Component {
                 type: ToggleField,
                 key: "newsletter",
                 name: <span>📨 Subscribe to our <em>awesome</em> newsletter?</span>,
-                validator: required("You MUST subscribe to our totally-not-spam newsletter!")
+                validator: required("You MUST subscribe to our totally-not-spam newsletter!"),
+                trueText: "🦄 Yes",
+                falseText: "No 👹"
               },
               {
                 type: Checkbox,
@@ -111,8 +110,7 @@ class App extends React.Component {
         <div className="card-content">
           <p className="title">Current form values</p>
           <p className="subtitle">Updated on <code className="has-text-info">onChange</code> event</p>
-          <pre>{JSON.stringify(this.state.currentFormValues, null, 2)}</pre>
-          {/*<JSONEditor
+          <JSONEditor
             id="data"
             placeholder={this.state.currentFormValues}
             theme="light_mitsuketa_tribute"
@@ -120,7 +118,7 @@ class App extends React.Component {
             width="100%"
             height="130px"
             confirmGood={false}
-          />*/}
+          />
         </div>
       </div>
       <hr />
@@ -150,13 +148,19 @@ class App extends React.Component {
       key: "password",
       name: "🔑 Password",
       placeholder: "🔑 Your super secret password here!",
-      validator: range({ min: 5 })
+      validator: pwned()
     },
     {
       type: TextArea,
       key: "bio",
       name: "🤖 Tell us something about you!",
       placeholder: "🤖 What kind of developer robot are you?"
+    },
+    {
+      type: ToggleField,
+      key: "newsletter",
+      name: <span>📨 Subscribe to our <em>awesome</em> newsletter?</span>,
+      validator: required("You MUST subscribe to our totally-not-spam newsletter!")
     },
     {
       type: Checkbox,
