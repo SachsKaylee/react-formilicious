@@ -9,7 +9,7 @@
   "scripts": {
     "test": "create-react-prototype test",
     "build": "create-react-prototype build",
-    "release": "create-react-prototype release",
+    "publish": "create-react-prototype publish",
     "watch": "create-react-prototype watch",
     "pack": "create-react-prototype pack"
   },

@@ -7,7 +7,7 @@
     "build": "create-react-prototype build",
     "watch": "create-react-prototype watch",
     "test": "create-react-prototype test",
-    "release": "create-react-prototype release",
+    "publish": "create-react-prototype publish",
     "pack": "create-react-prototype pack"
   },
   "author": "Patrick Sachs",
