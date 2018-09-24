@@ -1,4 +1,4 @@
-# @react-formilicious/core
+# @react-formilicious/core ![npm](https://img.shields.io/npm/v/@react-formilicious/core.svg)
 
 Easy to use, modular and simply delicious forms for React. 📝
 

@@ -1,4 +1,4 @@
-# @react-formilicious/bulma
+# @react-formilicious/bulma ![npm](https://img.shields.io/npm/v/@react-formilicious/bulma.svg)
 
 Fields for react-formilicious, using the Bulma CSS framework. 🎨
 

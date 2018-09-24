@@ -1,4 +1,4 @@
-# Have I Been Pwned?
+# Have I Been Pwned? ![npm](https://img.shields.io/npm/v/@react-formilicious/validator-pwned.svg)
 
 A field validator for [https://github.com/PatrickSachs/react-formilicious/](react-formilicious) based on the [https://haveibeenpwned.com/](haveibeenpwned.com) database.
 
