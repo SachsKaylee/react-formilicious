@@ -20,7 +20,7 @@
   },
   "devDependencies": {
     "@react-formilicious/core": "link:../core/dist",
-    "create-react-prototype": "1.1.0",
+    "create-react-prototype": "1.1.1",
     "react": "^16.4.2",
     "react-dom": "^16.4.2"
   },

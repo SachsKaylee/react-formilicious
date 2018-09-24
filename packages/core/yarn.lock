@@ -1316,9 +1316,9 @@ core-util-is@1.0.2, core-util-is@~1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/core-util-is/-/core-util-is-1.0.2.tgz#b5fd54220aa2bc5ab57aab7140c940754503c1a7"
 
-create-react-prototype@1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/create-react-prototype/-/create-react-prototype-1.1.0.tgz#7f4496afd9c91fab7017c3074c2c6edcac3c914a"
+create-react-prototype@1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/create-react-prototype/-/create-react-prototype-1.1.1.tgz#f3c307fedc3f7fedb7cd48bdfb5902ea84a20be9"
   dependencies:
     "@babel/cli" "^7.0.0-rc.1"
     "@babel/core" "^7.0.0-rc.1"
