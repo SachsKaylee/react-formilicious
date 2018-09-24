@@ -18,7 +18,7 @@ export default class TagList extends React.Component {
 
   render() {
     const {
-      name, tags = [], allowCustomTags = true,
+      name, tags = [], allowCustomTags = true, addCustomTagText = "Add a new tag...",
       field: { validated, message, initialValue },
       system: { waiting },
       value
@@ -37,7 +37,7 @@ export default class TagList extends React.Component {
               className="tag is-light"
               type="text"
               disabled={waiting}
-              placeholder="Add a new tag..."
+              placeholder={addCustomTagText}
               value={this.state.typingTag}
               onChange={e => this.setState({ typingTag: e.target.value })} />
             <a className="tag is-dark" onClick={this.addCustomTag} disabled={waiting}>Add</a>
