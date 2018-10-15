@@ -185,7 +185,7 @@ export default class Form extends React.Component {
         await this.putFieldValue(key, {
           value: value
         });
-        const validation = await runValidator(element.validator, value);
+        const validation = await runValidator(element.validator, value, this.getFlatDataStructure());
         // Once we have validated put the result into the field.
         this.fieldMustBeVersion(key, field.version);
         await this.putFieldValue(key, {
@@ -212,7 +212,7 @@ export default class Form extends React.Component {
     }
   }
 
-  async revalidateElement(element) {
+  async revalidateElement(element, formData = this.getFlatDataStructure()) {
     const key = element.key;
     let validation;
     // todo: is versioning required here?
@@ -222,7 +222,7 @@ export default class Form extends React.Component {
     });
     const { fieldTimeout = 3000 } = this.props;
     try {
-      validation = await mustResolveWithin(runValidator(element.validator, this.getFieldValue(key)), fieldTimeout);
+      validation = await mustResolveWithin(runValidator(element.validator, this.getFieldValue(key), formData), fieldTimeout);
     } catch (error) {
       validation = sanitizeValidationResult(error, true);
     }
@@ -234,7 +234,8 @@ export default class Form extends React.Component {
   }
 
   revalidateElements(elements) {
-    const all = elements.map(element => this.revalidateElement(element));
+    const formData = this.getFlatDataStructure();
+    const all = elements.map(element => this.revalidateElement(element, formData));
     return Promise.all(all);
   }
 
