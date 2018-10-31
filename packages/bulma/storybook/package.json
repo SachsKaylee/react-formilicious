@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
-    "@react-formilicious/bulma": "link:../dist",
-    "@react-formilicious/core": "link:../../core/dist",
+    "@react-formilicious/bulma": "file:../dist",
+    "@react-formilicious/core": "file:../../core/dist",
     "@storybook/react": "^3.4.10",
     "babel-core": "^6.26.3",
     "react": "^16.2.0",

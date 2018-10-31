@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
-    "@react-formilicious/core": "link:../dist",
+    "@react-formilicious/core": "file:../dist",
     "@storybook/react": "^3.4.10",
     "babel-core": "^6.26.3",
     "lorem-ipsum": "^1.0.6",
