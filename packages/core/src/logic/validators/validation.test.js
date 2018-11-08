@@ -34,6 +34,18 @@ const run = () => {
       message: "Rejected promises always fail."
     }));
   });
+
+  test("Validator gets additional arguments", () => {
+    const validator = (_value, arg1, arg2) => {
+      return {
+        validated: arg1 && arg2 && arg1 === arg2 ? "ok" : "error",
+        message: "Must get all additional arguments."
+      };
+    };
+    return runValidator(validator, "Hello World", "arg", "arg").then(res => {
+      expect(res.validated).toEqual("ok");
+    });
+  });
 };
 
 run();
