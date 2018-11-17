@@ -54,4 +54,16 @@ storiesOf("TagList", module)
       }
     ]} data={{}} onSubmit={action("onSubmit")} />
   ), options)
+
+  .addWithJSX("With custom text", () => (
+    <Form elements={[
+      {
+        key: "tagList",
+        type: fnNameOnly(TagList),
+        name: "TagList",
+        addCustomTagText: "Type some random stuff",
+        addCustomTagButtonText: "Shove it in there"
+      }
+    ]} data={{}} onSubmit={action("onSubmit")} />
+  ), options)
   
