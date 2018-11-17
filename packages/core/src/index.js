@@ -55,10 +55,13 @@ export default class Form extends React.Component {
     // todo: some elements may change completely, requiring us to remove their validation result
     const { elements, data } = newProps;
     const initialData = elements.reduce((acc, element) => {
-      const value = data[element.key] === undefined
-        ? element.type.getDefaultValue()
-        : data[element.key];
-      return { ...acc, [element.key]: value };
+      if (oldState.initialData[element.key] !== undefined) {
+        return { ...acc, [element.key]: oldState.initialData[element.key] };
+      } else if (data[element.key] !== undefined) {
+        return { ...acc, [element.key]: data[element.key] };
+      } else {
+        return { ...acc, [element.key]: element.type.getDefaultValue() };
+      }
     }, {});
     return { ...oldState, initialData };
   }
@@ -353,12 +356,17 @@ export default class Form extends React.Component {
   }
 
   renderElement({ type: FieldType, key, ...element }) {
+    let onChange = this.onChangeField["handler/" + key];
+    if (!onChange) {
+      onChange = rawValue => this.onChangeField(key, rawValue);
+      this.onChangeField["handler/" + key] = onChange;
+    }
     return (<FieldType
       {...element}
       key={key}
       system={this.getSystemProps()}
       field={this.getFieldProps(key)}
       value={this.getFieldValue(key)}
-      onChange={newValue => this.onChangeField(key, newValue)} />);
+      onChange={onChange} />);
   }
 }

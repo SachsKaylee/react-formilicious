@@ -18,7 +18,8 @@ export default class TagList extends React.Component {
 
   render() {
     const {
-      name, tags = [], allowCustomTags = true, addCustomTagText = "Add a new tag...",
+      name, tags = [], allowCustomTags = true, addCustomTagText = "Add a new tag...", 
+      addCustomTagButtonText = "Add",
       field: { validated, message, initialValue },
       system: { waiting },
       value
@@ -40,7 +41,7 @@ export default class TagList extends React.Component {
               placeholder={addCustomTagText}
               value={this.state.typingTag}
               onChange={e => this.setState({ typingTag: e.target.value })} />
-            <a className="tag is-dark" onClick={this.addCustomTag} disabled={waiting}>Add</a>
+            <a className="tag is-dark" onClick={this.addCustomTag} disabled={waiting}>{addCustomTagButtonText}</a>
           </div>
         </div>)}
       </div>
