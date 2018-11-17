@@ -40,6 +40,6 @@
     "url": "https://github.com/PatrickSachs/react-formilicious/issues"
   },
   "homepage": "https://github.com/PatrickSachs/react-formilicious/wiki",
-  "packageManager": "yarn",
+  "packageManager": "npm",
   "generator": "create-react-prototype"
 }

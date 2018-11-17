@@ -19,5 +19,6 @@
   "devDependencies": {
     "create-react-prototype": "^1.2.1"
   },
+  "packageManager": "npm",
   "generator": "create-react-prototype"
 }

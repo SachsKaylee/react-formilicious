@@ -33,6 +33,6 @@
     "type": "git",
     "url": "git+https://github.com/PatrickSachs/react-formilicious.git"
   },
-  "packageManager": "yarn",
+  "packageManager": "npm",
   "generator": "create-react-prototype"
 }
