@@ -28,7 +28,12 @@ export default class Form extends React.Component {
   constructor() {
     // todo: add a prop to validate the initial values.
     super();
-    this.mounted = false;
+    this.mounted = (v) => {
+      if (v !== undefined) {
+        this.mounted.v = v;
+      }
+      return this.mounted.v || false;
+    };
     this.state = {
       waiting: false,
       formValidationResult: null,
@@ -41,14 +46,15 @@ export default class Form extends React.Component {
     this.onChange = this.onChange.bind(this);
     this.onSubmitButtonClick = this.onSubmitButtonClick.bind(this);
     this.onResetButtonClick = this.onResetButtonClick.bind(this);
+    this.onChangeField = this.onChangeField.bind(this);
   }
 
   componentDidMount() {
-    this.mounted = true;
+    this.mounted(true);
   }
 
   componentWillUnmount() {
-    this.mounted = false;
+    this.mounted(false);
   }
 
   static getDerivedStateFromProps(newProps, oldState) {
@@ -70,7 +76,7 @@ export default class Form extends React.Component {
     return new Promise((res, rej) => {
       let error;
       let changed;
-      if (this.mounted) {
+      if (this.mounted()) {
         this.setState(s => {
           try {
             changed = typeof update === "function" ? update(s) : update;
