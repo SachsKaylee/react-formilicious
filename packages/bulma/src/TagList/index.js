@@ -16,17 +16,26 @@ export default class TagList extends React.Component {
     this.addCustomTag = this.addCustomTag.bind(this);
   }
 
+  blockAddTag() {
+    return this.props.system.waiting || (this.props.limit !== undefined && this.props.value.length >= this.props.limit);
+  }
+
+  blockRemoveTag() {
+    return this.props.system.waiting;
+  }
+
   render() {
     const {
-      name, tags = [], allowCustomTags = true, addCustomTagText = "Add a new tag...", 
+      name, tags = [], allowCustomTags = true, addCustomTagText = "Add a new tag...",
       addCustomTagButtonText = "Add",
       field: { validated, message, initialValue },
-      system: { waiting },
       value
     } = this.props;
 
     const allTags = unique([...tags.map(getTagId), ...initialValue, ...value]);
     const lookup = this.createTagLookup();
+
+    const disableInput = this.blockAddTag();
 
     return (<div className="field">
       <label className="label">{name}</label>
@@ -37,11 +46,16 @@ export default class TagList extends React.Component {
             <input
               className="tag is-light"
               type="text"
-              disabled={waiting}
+              disabled={disableInput}
               placeholder={addCustomTagText}
               value={this.state.typingTag}
               onChange={e => this.setState({ typingTag: e.target.value })} />
-            <a className="tag is-dark" onClick={this.addCustomTag} disabled={waiting}>{addCustomTagButtonText}</a>
+            <a
+              className={classnames("tag", disableInput ? "is-light" : "is-dark")}
+              onClick={this.addCustomTag}
+              disabled={disableInput}>
+              {addCustomTagButtonText}
+            </a>
           </div>
         </div>)}
       </div>
@@ -61,23 +75,33 @@ export default class TagList extends React.Component {
   }
 
   addCustomTag() {
-    const { typingTag } = this.state;
-    const { value, system: { waiting } } = this.props;
-    if (!typingTag || waiting) return;
-    this.setState({
-      typingTag: ""
-    }, () => value.indexOf(typingTag) === -1 && this.enableTag(typingTag));
+    const disableInput = this.blockAddTag();
+    const typingTag = this.state.typingTag.trim();
+    const { value } = this.props;
+    if (typingTag && !disableInput) {
+      this.setState({ typingTag: "" });
+      if (value.indexOf(typingTag) === -1) {
+        this.enableTag(typingTag);
+      }
+    }
   }
 
   renderTag(tag, lookup) {
     const { waiting, value } = this.props;
     const isActive = value.indexOf(tag) !== -1;
+    const disableInput = this.blockAddTag();
     const handler = waiting ? undefined : isActive
       ? () => this.disableTag(tag)
       : () => this.enableTag(tag);
     return (<div className="control" key={tag}>
       <div className="tags">
-        <a className={classnames("tag", isActive && "is-link", waiting && "is-loading")} onClick={handler}>
+        <a className={classnames({
+          "tag": true,
+          "is-link": isActive,
+          "is-light": !isActive && disableInput,
+          "is-dark": !isActive && !disableInput,
+          "is-loading": waiting
+        })} onClick={handler}>
           {lookup[tag]}
         </a>
       </div>
@@ -85,9 +109,10 @@ export default class TagList extends React.Component {
   }
 
   enableTag(tag) {
-    const { value, onChange, system: { waiting } } = this.props;
-    if (waiting) return;
-    onChange([...value, tag]);
+    if (!this.blockAddTag()) {
+      const { value, onChange } = this.props;
+      onChange([...value, tag]);
+    }
   }
 
   disableTag(tag) {

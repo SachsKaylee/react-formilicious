@@ -66,4 +66,28 @@ storiesOf("TagList", module)
       }
     ]} data={{}} onSubmit={action("onSubmit")} />
   ), options)
+
+  .addWithJSX("With limit", () => (
+    <Form elements={[
+      {
+        key: "limit1",
+        type: fnNameOnly(TagList),
+        name: "Limit 1",
+        limit: 1
+      },
+      {
+        key: "limit3",
+        type: fnNameOnly(TagList),
+        name: "Limit 3",
+        limit: 3
+      },
+      {
+        key: "limit3predefined",
+        type: fnNameOnly(TagList),
+        name: "Limit 3 with predefined",
+        tags: ["predefined-1", "predefined-2", "predefined-3", "predefined-4"],
+        limit: 3
+      }
+    ]} data={{}} onSubmit={action("onSubmit")} />
+  ), options)
   
