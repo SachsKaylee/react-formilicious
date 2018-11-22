@@ -2,8 +2,10 @@ import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import Form from "@react-formilicious/core";
+import { pass } from "@react-formilicious/core/helpers/timeout";
 import { DemoFieldString, DemoFieldNumber, DemoFieldArray } from './.config/demo-fields';
-import options, { fnNameOnly } from './.config/options';
+import options, { fnNameOnly, fnFullBody } from './.config/options';
+import DataChanger from './DataChanger';
 
 let frameSrc, bulmaHref, sourceHref;
 if (location.hostname === "localhost") {
@@ -59,6 +61,32 @@ storiesOf("Introduction", module)
   .addWithJSX("Empty form", () => (
     <Form elements={[]} data={{}} onSubmit={action("onSubmit")} />
   ), options)
+
+  .addWithJSX("Values changed later", () => {
+    return (<DataChanger
+      text="Change after 10ms"
+      data={{ field1: "Initial Field 1", field2: "Initial Field 2" }}
+      change={data => pass(10, data).then(data => ({
+        field1: data.field2 + " - Swapped with field2!",
+        field2: Math.random() * 255
+      }))}
+      render={fnFullBody(data => (
+        <Form
+          data={data}
+          onSubmit={action("onSubmit")}
+          elements={[
+            {
+              key: "field1",
+              name: "Field 1",
+              type: fnNameOnly(DemoFieldString)
+            },
+            {
+              key: "field2",
+              name: "Field 2",
+              type: fnNameOnly(DemoFieldString)
+            }
+          ]} />))} />);
+  }, options)
 
 require("./buttons");
 require("./validator-async");

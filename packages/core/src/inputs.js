@@ -10,6 +10,13 @@ export class Input extends React.PureComponent {
     return <input {...this.props} value={undefined} />;
   }
 
+  componentDidMount() {
+    const node = ReactDOM.findDOMNode(this);
+    if (node.type === "text") {
+      node.value = this.props.value;
+    }
+  }
+
   componentDidUpdate() {
     const node = ReactDOM.findDOMNode(this);
     // Chrome Bug: Only text inputs can change selection
@@ -29,6 +36,11 @@ export class Input extends React.PureComponent {
 export class TextArea extends React.PureComponent {
   render() {
     return <textarea {...this.props} value={undefined} />;
+  }
+
+  componentDidMount() {
+    const node = ReactDOM.findDOMNode(this);
+    node.value = this.props.value;
   }
 
   componentDidUpdate() {

@@ -115,12 +115,12 @@ export default class Form extends React.Component {
     };
   }
 
-  getFieldValue(key, state = this.state) {
-    const field = state.fields[key];
+  getFieldValue(key) {
+    const field = this.state.fields[key];
     if (field && field.value !== undefined) return field.value;
     const element = this.getElement(key);
     if (!element.ignoreData) {
-      const initialValue = state.initialData[key];
+      const initialValue = this.props.data[key] || this.state.initialData[key];
       if (initialValue !== undefined) return initialValue;
     }
     return element.type.getDefaultValue();
