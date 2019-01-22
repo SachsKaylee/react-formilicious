@@ -169,17 +169,17 @@ export default class Form extends React.Component {
     return true;
   }
 
-  async onChangeField(key, rawValue) {
+  async onChangeField(key, value) {
     if (this.state.waiting) {
-      console.warn("[react-formilicious]", "Tried to update field \"" + key + "\" with the following value while form was in waiting state.", rawValue);
+      console.warn("[react-formilicious]", "Tried to update field \"" + key + "\" with the following value while form was in waiting state.", value);
       return;
     }
     const { fieldTimeout = 3000 } = this.props;
     const element = this.getElement(key);
     const field = await this.putFieldValue(key, {
-      version: this.getFieldVersion(key) + 1
+      version: this.getFieldVersion(key) + 1,
+      value: value
     });
-    let value = field.value;
     try {
       await mustResolveWithin((async () => {
         // First set the field to pending, then let's start the work.
@@ -188,19 +188,12 @@ export default class Form extends React.Component {
           validated: "pending",
           message: null
         });
-        value = await makePromise(rawValue);
-        // Once the field value has been resolved, set it to the field, and then start validating.
-        this.fieldMustBeVersion(key, field.version);
-        await this.putFieldValue(key, {
-          value: value
-        });
         const validation = await runValidator(element.validator, value, this.getFlatDataStructure());
         // Once we have validated put the result into the field.
         this.fieldMustBeVersion(key, field.version);
         await this.putFieldValue(key, {
           validated: validation.validated,
-          message: validation.message,
-          value: value
+          message: validation.message
         });
       })(), fieldTimeout);
       // Fire the onChange event
