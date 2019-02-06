@@ -4,6 +4,7 @@ import makePromise from "./helpers/makePromise";
 import { sanitizeValidationResult, sanitizeOnSubmitResult } from "./logic/validators/sanitization";
 import ValidationResult from "./validators/ValidationResult";
 import { mustResolveWithin } from "./helpers/timeout";
+import at, { putAt } from "./helpers/at";
 import defaultButtons from "./defaultButtons";
 import { runValidator } from "./logic/validators/validation";
 import filterObject, { isNotUndefined } from "./helpers/filterObject";
@@ -120,7 +121,7 @@ export default class Form extends React.Component {
     if (field && field.value !== undefined) return field.value;
     const element = this.getElement(key);
     if (!element.ignoreData) {
-      const initialValue = this.props.data[key] || this.state.initialData[key];
+      const initialValue = at(key, this.props.data) || at(key, this.state.initialData);
       if (initialValue !== undefined) return initialValue;
     }
     return element.type.getDefaultValue();
@@ -143,9 +144,7 @@ export default class Form extends React.Component {
 
   getFlatDataStructure() {
     const { elements } = this.props;
-    return elements.reduce((acc, element) => {
-      return { ...acc, [element.key]: this.getFieldValue(element.key) };
-    }, {});
+    return elements.reduce((acc, element) => putAt(element.key, acc, this.getFieldValue(element.key)), {});
   }
 
   onChange() {

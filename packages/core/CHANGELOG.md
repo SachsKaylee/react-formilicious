@@ -4,6 +4,14 @@ All notable changes to this library will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this library adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## 2.0.1
+
+* Objects can now be nested(e.g. the field key `key1.key2` will correctly traverse the object chain) @PatrickSachs.
+
+## 2.0.0
+
+* Removed async field return values for now @PatrickSachs.
+
 ## 1.0.3
 
 * Fixed a bug that would not update fields when changing form data after intialization @PatrickSachs.
