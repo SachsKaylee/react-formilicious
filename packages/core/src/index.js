@@ -4,6 +4,7 @@ import makePromise from "./helpers/makePromise";
 import { sanitizeValidationResult, sanitizeOnSubmitResult } from "./logic/validators/sanitization";
 import ValidationResult from "./validators/ValidationResult";
 import { mustResolveWithin } from "./helpers/timeout";
+import at, { putAt } from "./helpers/at";
 import defaultButtons from "./defaultButtons";
 import { runValidator } from "./logic/validators/validation";
 import filterObject, { isNotUndefined } from "./helpers/filterObject";
@@ -120,7 +121,7 @@ export default class Form extends React.Component {
     if (field && field.value !== undefined) return field.value;
     const element = this.getElement(key);
     if (!element.ignoreData) {
-      const initialValue = this.props.data[key] || this.state.initialData[key];
+      const initialValue = at(key, this.props.data) || at(key, this.state.initialData);
       if (initialValue !== undefined) return initialValue;
     }
     return element.type.getDefaultValue();
@@ -143,9 +144,7 @@ export default class Form extends React.Component {
 
   getFlatDataStructure() {
     const { elements } = this.props;
-    return elements.reduce((acc, element) => {
-      return { ...acc, [element.key]: this.getFieldValue(element.key) };
-    }, {});
+    return elements.reduce((acc, element) => putAt(element.key, acc, this.getFieldValue(element.key)), {});
   }
 
   onChange() {
@@ -169,17 +168,17 @@ export default class Form extends React.Component {
     return true;
   }
 
-  async onChangeField(key, rawValue) {
+  async onChangeField(key, value) {
     if (this.state.waiting) {
-      console.warn("[react-formilicious]", "Tried to update field \"" + key + "\" with the following value while form was in waiting state.", rawValue);
+      console.warn("[react-formilicious]", "Tried to update field \"" + key + "\" with the following value while form was in waiting state.", value);
       return;
     }
     const { fieldTimeout = 3000 } = this.props;
     const element = this.getElement(key);
     const field = await this.putFieldValue(key, {
-      version: this.getFieldVersion(key) + 1
+      version: this.getFieldVersion(key) + 1,
+      value: value
     });
-    let value = field.value;
     try {
       await mustResolveWithin((async () => {
         // First set the field to pending, then let's start the work.
@@ -188,19 +187,12 @@ export default class Form extends React.Component {
           validated: "pending",
           message: null
         });
-        value = await makePromise(rawValue);
-        // Once the field value has been resolved, set it to the field, and then start validating.
-        this.fieldMustBeVersion(key, field.version);
-        await this.putFieldValue(key, {
-          value: value
-        });
         const validation = await runValidator(element.validator, value, this.getFlatDataStructure());
         // Once we have validated put the result into the field.
         this.fieldMustBeVersion(key, field.version);
         await this.putFieldValue(key, {
           validated: validation.validated,
-          message: validation.message,
-          value: value
+          message: validation.message
         });
       })(), fieldTimeout);
       // Fire the onChange event

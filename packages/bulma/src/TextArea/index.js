@@ -1,6 +1,5 @@
 import * as React from "react";
 import ValidationResult from "@react-formilicious/core/validators/ValidationResult";
-import { TextArea as CoreTextArea } from "@react-formilicious/core/inputs";
 
 export default class TextArea extends React.Component {
   static getDefaultValue() {
@@ -23,7 +22,7 @@ export default class TextArea extends React.Component {
       <div className="field">
         <label className="label">{name}</label>
         <div className="contol">
-          <CoreTextArea
+          <textarea
             className="textarea"
             onChange={e => onChange(e.target.value)}
             disabled={waiting}
