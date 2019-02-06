@@ -6,12 +6,29 @@ export default class TextField extends React.Component {
     return "";
   }
 
+  constructor(p) {
+    super(p);
+    this.onChange = this.onChange.bind(this);
+  }
+
   getType(mode) {
-    switch(mode) {
+    switch (mode) {
       case "datetime": return "datetime-local";
       case undefined: return "text";
       default: return mode;
     }
+  }
+
+  onChange(e) {
+    let value = e.target.value;
+    if (this.props.mode === "number") {
+      // Try to parse number
+      const parsed = Number.parseFloat(value);
+      if (!Number.isNaN(parsed)) {
+        value = parsed;
+      }
+    }
+    this.props.onChange(value);
   }
 
   render() {
@@ -19,7 +36,7 @@ export default class TextField extends React.Component {
       name, mode, placeholder, step,
       field: { validated, message },
       system: { waiting },
-      onChange, value
+      value
     } = this.props;
 
     return (
@@ -28,7 +45,7 @@ export default class TextField extends React.Component {
         <div className="contol">
           <input
             className="input"
-            onChange={e => onChange(e.target.value)}
+            onChange={this.onChange}
             type={this.getType(mode)}
             disabled={waiting}
             value={value}
