@@ -33,10 +33,12 @@ export default class TextField extends React.Component {
 
   render() {
     const {
-      name, mode, placeholder, step,
-      field: { validated, message },
-      system: { waiting },
-      value
+      // TextField props
+      name, disabled, mode,
+      // System props
+      field, system, onChange, value,
+      // Raw pass the rest.
+      ...otherProps
     } = this.props;
 
     return (
@@ -44,15 +46,14 @@ export default class TextField extends React.Component {
         <label className="label">{name}</label>
         <div className="contol">
           <input
+            {...otherProps}
             className="input"
             onChange={this.onChange}
             type={this.getType(mode)}
-            disabled={waiting}
-            value={value}
-            step={step}
-            placeholder={placeholder} />
+            disabled={system.waiting || disabled}
+            value={value} />
         </div>
-        <ValidationResult validated={validated} message={message} />
+        <ValidationResult {...field} />
       </div>);
   }
 }

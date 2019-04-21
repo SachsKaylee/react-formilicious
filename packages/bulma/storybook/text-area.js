@@ -26,7 +26,7 @@ storiesOf("TextArea", module)
         placeholder: "Type your text here"
       }
     ]} data={{}} onSubmit={action("onSubmit")} />
-  ), options)   
+  ), options)
 
   .addWithJSX("Changed line count", () => (
     <Form elements={[
@@ -37,4 +37,19 @@ storiesOf("TextArea", module)
         lines: 2
       }
     ]} data={{}} onSubmit={action("onSubmit")} />
+  ), options)
+
+  .addWithJSX("Forward settings", () => (
+    <div>
+      <p>You can pass all valid <textarea value="textarea element" /> settings to the text field</p>
+      <hr />
+      <Form elements={[
+        {
+          key: "textArea",
+          type: fnNameOnly(TextArea),
+          name: "Shipping address",
+          autocomplete: "street-address"
+        }
+      ]} data={{}} onSubmit={action("onSubmit")} />
+    </div>
   ), options)   

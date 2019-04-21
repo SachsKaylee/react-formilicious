@@ -48,3 +48,16 @@ storiesOf("TextField", module)
       )]} data={{}} onSubmit={action("onSubmit")} />
     </div>
   ), options)
+
+  .addWithJSX("Forward settings", () => (
+    <div>
+      <p>You can pass all valid <input value="input element" /> settings to the text field</p>
+      <hr />
+      <Form elements={[{
+        key: "textField",
+        type: fnNameOnly(TextField),
+        autocomplete: "name",
+        name: "Your name"
+      }]} data={{}} onSubmit={action("onSubmit")} />
+    </div>
+  ), options)
