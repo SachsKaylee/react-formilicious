@@ -9,13 +9,15 @@ export default class TextArea extends React.Component {
   render() {
     const {
       // Your element config expect type and key
-      name, placeholder, lines = 3,
+      name, lines = 3, disabled,
       // System created properties just for this field
       field: { validated, message },
       // System properties which are the same for all fields
       system: { waiting },
       // Change handler
-      onChange, value
+      onChange, value,
+      // Raw pass the rest
+      ...otherProps
     } = this.props;
 
     return (
@@ -23,12 +25,12 @@ export default class TextArea extends React.Component {
         <label className="label">{name}</label>
         <div className="contol">
           <textarea
+            {...otherProps}
             className="textarea"
             onChange={e => onChange(e.target.value)}
-            disabled={waiting}
-            rows={lines}
-            value={value}
-            placeholder={placeholder} />
+            disabled={waiting || disabled}
+            rows={otherProps.rows || lines}
+            value={value} />
         </div>
         <ValidationResult validated={validated} message={message} />
       </div>);
