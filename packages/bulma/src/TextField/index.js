@@ -36,7 +36,7 @@ export default class TextField extends React.Component {
       // TextField props
       name, disabled, mode,
       // System props
-      field, system, onChange, value,
+      field, system, onChange, value, validator, ignoreData,
       // Raw pass the rest.
       ...otherProps
     } = this.props;

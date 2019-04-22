@@ -8,14 +8,10 @@ export default class TextArea extends React.Component {
 
   render() {
     const {
-      // Your element config expect type and key
+      // TextArea props
       name, lines = 3, disabled,
-      // System created properties just for this field
-      field: { validated, message },
-      // System properties which are the same for all fields
-      system: { waiting },
-      // Change handler
-      onChange, value,
+      // System properties
+      field, system, onChange, value, validator, ignoreData,
       // Raw pass the rest
       ...otherProps
     } = this.props;
@@ -28,11 +24,11 @@ export default class TextArea extends React.Component {
             {...otherProps}
             className="textarea"
             onChange={e => onChange(e.target.value)}
-            disabled={waiting || disabled}
+            disabled={system.waiting || disabled}
             rows={otherProps.rows || lines}
             value={value} />
         </div>
-        <ValidationResult validated={validated} message={message} />
+        <ValidationResult {...field} />
       </div>);
   }
 }
