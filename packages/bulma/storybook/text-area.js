@@ -48,7 +48,7 @@ storiesOf("TextArea", module)
           key: "textArea",
           type: fnNameOnly(TextArea),
           name: "Shipping address",
-          autocomplete: "street-address"
+          autoComplete: "street-address"
         }
       ]} data={{}} onSubmit={action("onSubmit")} />
     </div>

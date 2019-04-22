@@ -56,7 +56,7 @@ storiesOf("TextField", module)
       <Form elements={[{
         key: "textField",
         type: fnNameOnly(TextField),
-        autocomplete: "name",
+        autoComplete: "name",
         name: "Your name"
       }]} data={{}} onSubmit={action("onSubmit")} />
     </div>
