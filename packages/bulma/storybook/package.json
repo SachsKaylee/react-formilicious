@@ -1,5 +1,5 @@
 {
-  "name": "@react-formilicious/core-storybook",
+  "name": "@react-formilicious/bulma-storybook",
   "version": "1.0.0",
   "private": true,
   "dependencies": {
